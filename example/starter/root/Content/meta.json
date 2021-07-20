@@ -1,0 +1,17 @@
+{
+    "order": 2,
+    "children": [
+        {
+            "component": "Heading1",
+            "text": "Test text"
+        },
+        {
+            "component": "Image",
+            "src": "assets/image1.png"
+        },
+        {
+            "component": "Text",
+            "text": "This is text"
+        }
+    ]
+}

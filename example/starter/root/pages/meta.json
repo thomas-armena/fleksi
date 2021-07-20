@@ -1,0 +1,20 @@
+{
+    "component": "Text",
+    "text": "Hello World",
+    "children": [
+        {
+            "pageOne": {
+                "component": "Page",
+                "children": [
+                    {"component": "Text", "text": "Hello World!"}
+                ]
+            },
+            "pageTwo": {
+                "component": "Page"
+            },
+            "pageThree": {
+                "component": "Page"
+            }
+        }
+    ]
+}
