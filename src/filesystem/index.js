@@ -1,17 +1,22 @@
-import { WORKING_DIR } from './constants.js';
+import { WORKING_DIR } from '../constants.js';
 import path from 'path';
 import fs from 'fs';
 import { opendir } from 'fs/promises';
 
-const DEFAULT_ROOT = path.join(WORKING_DIR, 'root');
+const DEFAULT_ROOT = path.join(WORKING_DIR, 'initial');
 
-class FlexiNodes {
+class FileSystem {
     constructor(rootPath = DEFAULT_ROOT) {
         this.rootPath = rootPath;
-        console.log(this._getFleksiNodes(rootPath));
     }
 
-    fromURL(url) {
+    getRoot() {
+        let root = this._getFleksiNodes(this.rootPath);
+        root._isRoot = true;
+        return root;
+    }
+
+    getNodeFromURL(url) {
         let flexiNodes = this._getFleksiNodes(this.rootPath);
         const urlNodes = url.split('/');
         urlNodes.splice(0,1)
@@ -66,4 +71,4 @@ class FlexiNodes {
     }
 }
 
-export default FlexiNodes;
+export default FileSystem;

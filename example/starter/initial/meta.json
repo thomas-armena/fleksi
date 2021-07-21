@@ -7,7 +7,7 @@
         "hero": {
             "_component": "Hero",
             "_arguments": {
-                "title": "Fleksi Demo",
+                "title": "Fleksi Starter 2",
                 "backgroundImage": "/assets/image1.png"
             }
         },
