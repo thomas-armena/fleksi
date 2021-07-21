@@ -8,15 +8,16 @@ const DEFAULT_ROOT = path.join(WORKING_DIR, 'root');
 class FlexiNodes {
     constructor(rootPath = DEFAULT_ROOT) {
         this.rootPath = rootPath;
+        console.log(this._getFleksiNodes(rootPath));
     }
 
-    async fromURL(url) {
-        let flexiNodes = await this._getFleksiNodes(this.rootPath);
+    fromURL(url) {
+        let flexiNodes = this._getFleksiNodes(this.rootPath);
         const urlNodes = url.split('/');
         urlNodes.splice(0,1)
         let currNode = {...flexiNodes};
         for(let urlNode of urlNodes) {
-            const childNode = this._getChildNodeByName(currNode, urlNode);
+            const childNode = currNode[urlNode];
             if (childNode) {
                 currNode = childNode;
             }
@@ -24,54 +25,32 @@ class FlexiNodes {
         return currNode;
     }
 
-    async _getFleksiNodes(dir) {
-        const baseName = path.basename(dir);
-        let fNode = { name: baseName };
+    _getFleksiNodes(dir) {
+
+        if (!fs.lstatSync(dir).isDirectory()) return;
+
+        let fNode = {};
         const metaPath = path.join(dir, 'meta.json');
         if (fs.existsSync(metaPath)) {
             const meta = this._readJson(metaPath);
             fNode = { ...fNode, ...meta};
         }
-        if (!fNode.component && this._isUppercase(baseName[0])) {
-            fNode.component = baseName;
-        };
-        if (!fNode.children) fNode.children = await this._getChildren(dir);
-        return fNode;
-    }
-    
-    async _getChildren(dirPath) {
-        let children = [];
-        try {
-            const dir = await opendir(dirPath);
-            for await (const dirent of dir) {
-                const childDir = path.join(dirPath, dirent.name)
-                if (dirent.isDirectory()) {
-                    let childNodes = await this._getFleksiNodes(childDir);
-                    children.push(childNodes);
-                }
+        for (const fileName of fs.readdirSync(dir)){
+            const childDir = path.join(dir, fileName);
+            const childNode = this._getFleksiNodes(childDir);
+            if (!childNode) continue;
+            if (fNode[fileName]) {
+                fNode[fileName] = { ...fNode[fileName], ...childNode}
+            } else {
+                fNode[fileName] = childNode;
             }
-        } catch (err) {
-            console.error(err);
         }
-        children = this._sortByOrder(children);
-        return children;
+        return fNode;
     }
     
     _readJson(filePath) {
         const rawdata = fs.readFileSync(filePath);
         return JSON.parse(rawdata);
-    }
-    
-    _sortByOrder(nodes) {
-        return nodes.sort((a, b) => {
-            if (!b.order) return -1;
-            if (!a.order) return 1; 
-            return a.order - b.order;
-        })
-    }
-    
-    _isUppercase(char) {
-        return char === char.toUpperCase();
     }
 
     _getChildNodeByName(obj, name) {

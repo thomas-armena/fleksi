@@ -1,13 +1,13 @@
 {
     "_component": "Page",
     "_arguments": {
-        "title": "Fleksi Demo"
+        "title": "Page2"
     },
     "_children": {
         "hero": {
             "_component": "Hero",
             "_arguments": {
-                "title": "Fleksi Demo",
+                "title": "Page Two",
                 "backgroundImage": "/assets/image1.png"
             }
         },
@@ -29,10 +29,5 @@
                 "text": "Lorem ipsum"
             }
         }
-    },
-
-    "someRandomData": {
-        "key1": "value",
-        "key2": 1234
     }
 }

@@ -5,15 +5,15 @@ import { WORKING_DIR, APP_DIR } from './src/constants.js';
 import path from 'path';
 import fs from 'fs';
 
-const flexiNodes = new FlexiNodes();
+const fleksiNodes = new FlexiNodes();
 buildComponentLibrary();
 buildRendererLibary();
 
 const app = express();
 app.use(express.static(path.join(WORKING_DIR,'build')));
 
-app.get('*', async (req, res) => {
-    const fleksiNode = await flexiNodes.fromURL(req.url);
+app.get('*', (req, res) => {
+    const fleksiNode = fleksiNodes.fromURL(req.url);
     const htmlResponse = generateHTML(fleksiNode);
     res.set('Content-Type', 'text/html');
     res.send(Buffer.from(htmlResponse));

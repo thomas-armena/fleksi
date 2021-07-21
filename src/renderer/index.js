@@ -7,21 +7,20 @@ const renderNodeToDOM = (node) => {
 }
 
 const renderFlexiComponent = (node) => {
-    const renderChildren = () => node.children.map(child => renderFlexiComponent(child));
-    const args = getArgs(node);
-    const Component = Components[node.component];
-    if (!Component) return null;
-    return <Component {...args}>{node.children && renderChildren()}</Component>;
-}
-
-const getArgs = (node) => {
-    let args = {};
-    for (const key in node) {
-        if (key === 'component') continue;
-        if (key === 'children') continue;
-        args[key] = node[key];
+    const renderChildren = () => {
+        let childComponents = [];
+        for (let child of Object.values(node._children)) {
+            childComponents.push(renderFlexiComponent(child));
+        }
+        return childComponents;
     }
-    return args;
+    const Component = Components[node._component];
+    if (!Component) return <div>{JSON.stringify(node)}</div>;
+    return (
+        <Component {...node._arguments}>
+            {node._children && renderChildren()}
+        </Component>
+    );
 }
 
 export { renderNodeToDOM };
