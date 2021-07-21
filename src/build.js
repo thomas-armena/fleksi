@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const WORKING_DIR = path.resolve(process.cwd());
 const APP_DIR = path.resolve(dirname(fileURLToPath(import.meta.url)));
 
-const babelRules = {
+const babelRule = {
     test: /\.jsx?$/,
     exclude: /node_modules/,
     use: {
@@ -20,6 +20,23 @@ const babelRules = {
     },
 };
 
+const cssRule = {
+    test: /\.css$/i,
+    use: ["style-loader", "css-loader"],
+};
+
+const scssRule = {
+    test: /\.s[ac]ss$/i,
+    use: [
+      // Creates `style` nodes from JS strings
+      "style-loader",
+      // Translates CSS into CommonJS
+      "css-loader",
+      // Compiles Sass to CSS
+      "sass-loader",
+    ],
+};
+
 const componentLibWebpackConfig = {
     entry: path.join(WORKING_DIR, 'components', 'index.js'),
     output: {
@@ -29,7 +46,7 @@ const componentLibWebpackConfig = {
     },
     context: path.resolve(WORKING_DIR, 'src'),
     module: {
-        rules: [babelRules],
+        rules: [babelRule, cssRule, scssRule],
     },
 };
 
@@ -42,7 +59,7 @@ const rendererWebpackConfig = {
     },
     context: path.resolve(APP_DIR, 'renderer'),
     module: {
-        rules: [babelRules],
+        rules: [babelRule],
     },
 };
 
