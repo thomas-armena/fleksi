@@ -12,15 +12,8 @@ class Database {
         this.client = new MongoClient(url);
     }
 
-    async connect() {
-        await this.client.connect();
-    }
-
-    async close() {
-        await this.client.close();
-    }
-
     async populateWithInitialData() {
+        await this._connect();
         const fileSystem = new FileSystem();
         const initialRoot = fileSystem.getRoot();
         const result = await this._getRootCollection().updateOne(
@@ -28,6 +21,48 @@ class Database {
             { $set: initialRoot },
             { upsert: true }
         );
+        await this._close();
+        return result;
+    }
+
+    async getNode(path) {
+        const pathNodes = this._getPathNodes(path);
+        let curr = await this._getRoot();
+        for (let pathNode of pathNodes) {
+            const next = curr[pathNode];
+            if (next) curr = next;
+            else break;
+        }
+        return curr;
+    }
+
+    async setNode(path, updatedNode) {
+        await this._connect();
+        const pathNodes = this._getPathNodes(path);
+        const key = pathNodes.join(".");
+        console.log(key, updatedNode);
+        const result = await this._getRootCollection().updateOne(
+            { _isRoot: true },
+            { $set: { [key]: updatedNode } },
+            { upsert: true }
+        );
+        await this._close();
+        return result;
+    }
+
+    async _connect() {
+        await this.client.connect();
+    }
+
+    async _close() {
+        await this.client.close();
+    }
+
+    async _getRoot() {
+        await this._connect();
+        this.connect;
+        const result = await this._getRootCollection().findOne({ _isRoot: true })
+        await this._close();
         return result;
     }
 
@@ -37,6 +72,11 @@ class Database {
 
     _getRootCollection() {
         return this._getDatabase().collection(DB_WEB_COLLECTION);
+    }
+
+    _getPathNodes(path) {
+        let nodes = path.split('/');
+        return nodes.filter( node => node !== '');
     }
 
 }

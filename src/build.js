@@ -64,17 +64,19 @@ const rendererWebpackConfig = {
 };
 
 const runWithConfig = (config) => {
-    const compiler = webpack(config);
-    compiler.run((err, stats) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(stats.toString({
-            chunks: false,  // Makes the build much quieter
-            colors: true    // Shows colors in the console
-        }));
-    })
+    return new Promise((resolve, reject) => {
+        const compiler = webpack(config);
+        compiler.run((err, stats) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(stats.toString({
+                chunks: false,  // Makes the build much quieter
+                colors: true    // Shows colors in the console
+            }));
+        })
+    });
 }
 
 const buildComponentLibrary = () => runWithConfig(componentLibWebpackConfig);

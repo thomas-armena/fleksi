@@ -1,37 +1,31 @@
 import express from 'express';
 import { buildComponentLibrary, buildRendererLibary } from './src/build.js';
-import FileSystem from './src/filesystem/index.js';
 import Database from './src/database/index.js';
 import { WORKING_DIR, APP_DIR } from './src/constants.js';
 import path from 'path';
 import fs from 'fs';
+import bodyParser from 'body-parser';
 
+const database = new Database();
 
-const initiateDatabase = async () => {
-    const database = new Database();
-    try {
-        await database.connect();
-        const result = await database.populateWithInitialData();
-        console.log(result);
-    } finally {
-        await database.close();
-    }
-}
-
-const build = () => {
-    buildComponentLibrary();
-    buildRendererLibary();
-}
 const startServer = () => {
     const app = express();
+
+    app.use(bodyParser.json());
     app.use(express.static(path.join(WORKING_DIR,'build')));
     
-    app.get('*', (req, res) => {
-        const fileSystem = new FileSystem();
-        const nodeFromURL = fileSystem.getNodeFromURL(req.url);
-        const htmlResponse = generateHTML(nodeFromURL);
+    app.get('*', async (req, res) => {
+        const node = await database.getNode(req.url);
+        const htmlResponse = generateHTML(node);
         res.set('Content-Type', 'text/html');
         res.send(Buffer.from(htmlResponse));
+    });
+
+    app.post('*', async (req, res) => {
+        const node = req.body;
+        const result = await database.setNode(req.url, node.set);
+        console.log(result);
+        res.send(result);
     });
     
     const generateHTML = (fleksiNode) => {
@@ -43,5 +37,12 @@ const startServer = () => {
     app.listen(3000);
 }
 
-initiateDatabase();
+const start = async () => {
+    const result = await database.populateWithInitialData();
+    console.log(await buildComponentLibrary());
+    console.log(await buildRendererLibary());
+    startServer();
+}
+
+start().catch((err)=>console.log(err));
 
