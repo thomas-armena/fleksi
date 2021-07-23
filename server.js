@@ -17,7 +17,8 @@ const startServer = () => {
     app.get('*', async (req, res) => {
         const shouldAuthor = req.query.author === 'true';
         const node = await database.getNode(req.url);
-        const htmlResponse = generateHTML(node, shouldAuthor, req.url);
+        const root = await database.getNode('/');
+        const htmlResponse = generateHTML(node, shouldAuthor, req.url, root);
         res.set('Content-Type', 'text/html');
         res.send(Buffer.from(htmlResponse));
     });
@@ -28,8 +29,8 @@ const startServer = () => {
         res.send(result);
     });
     
-    const generateHTML = (node, shouldAuthor, url) => {
-        const config = { node, shouldAuthor, url }
+    const generateHTML = (node, shouldAuthor, url, root) => {
+        const config = { node, shouldAuthor, url, root }
         let templateHTML = fs.readFileSync(path.join(APP_DIR, 'template.html')).toString();
         templateHTML = templateHTML.replace("<fleksiNode>", JSON.stringify(config));
         return templateHTML;
