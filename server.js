@@ -15,8 +15,9 @@ const startServer = () => {
     app.use(express.static(path.join(WORKING_DIR,'build')));
     
     app.get('*', async (req, res) => {
+        const shouldAuthor = req.query.author === 'true';
         const node = await database.getNode(req.url);
-        const htmlResponse = generateHTML(node);
+        const htmlResponse = generateHTML(node, shouldAuthor, req.url);
         res.set('Content-Type', 'text/html');
         res.send(Buffer.from(htmlResponse));
     });
@@ -24,13 +25,13 @@ const startServer = () => {
     app.post('*', async (req, res) => {
         const node = req.body;
         const result = await database.setNode(req.url, node.set);
-        console.log(result);
         res.send(result);
     });
     
-    const generateHTML = (fleksiNode) => {
+    const generateHTML = (node, shouldAuthor, url) => {
+        const config = { node, shouldAuthor, url }
         let templateHTML = fs.readFileSync(path.join(APP_DIR, 'template.html')).toString();
-        templateHTML = templateHTML.replace("<fleksiNode>", JSON.stringify(fleksiNode));
+        templateHTML = templateHTML.replace("<fleksiNode>", JSON.stringify(config));
         return templateHTML;
     }
     

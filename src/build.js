@@ -59,7 +59,7 @@ const rendererWebpackConfig = {
     },
     context: path.resolve(APP_DIR, 'renderer'),
     module: {
-        rules: [babelRule],
+        rules: [babelRule, cssRule, scssRule],
     },
 };
 

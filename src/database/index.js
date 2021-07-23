@@ -75,7 +75,10 @@ class Database {
 
     _getPathNodes(path) {
         let nodes = path.split('/');
-        return nodes.filter( node => node !== '');
+
+        return nodes
+            .filter( node => node !== '')
+            .map( node => node.split('?')[0]);
     }
 
 }
