@@ -40,7 +40,6 @@ class Database {
         await this._connect();
         const pathNodes = this._getPathNodes(path);
         const key = pathNodes.join(".");
-        console.log(key, updatedNode);
         const result = await this._getRootCollection().updateOne(
             { _isRoot: true },
             { $set: { [key]: updatedNode } },

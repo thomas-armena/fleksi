@@ -11,13 +11,13 @@ class FileSystem {
     }
 
     getRoot() {
-        let root = this._getFleksiNodes(this.rootPath);
+        let root = this._getNodesFromDir(this.rootPath);
         root._isRoot = true;
         return root;
     }
 
     getNodeFromURL(url) {
-        let flexiNodes = this._getFleksiNodes(this.rootPath);
+        let flexiNodes = this._getNodesFromDir(this.rootPath);
         const urlNodes = url.split('/');
         urlNodes.splice(0,1)
         let currNode = {...flexiNodes};
@@ -30,7 +30,7 @@ class FileSystem {
         return currNode;
     }
 
-    _getFleksiNodes(dir) {
+    _getNodesFromDir(dir) {
 
         if (!fs.lstatSync(dir).isDirectory()) return;
 
@@ -42,7 +42,7 @@ class FileSystem {
         }
         for (const fileName of fs.readdirSync(dir)){
             const childDir = path.join(dir, fileName);
-            const childNode = this._getFleksiNodes(childDir);
+            const childNode = this._getNodesFromDir(childDir);
             if (!childNode) continue;
             if (fNode[fileName]) {
                 fNode[fileName] = { ...fNode[fileName], ...childNode}
