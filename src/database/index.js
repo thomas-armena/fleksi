@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb';
 import FileSystem from '../filesystem/index.js';
+import { getPathNodesFromURL } from '../nodeConfig.js';
 
 const DEFAULT_URL = 'mongodb://localhost:27017';
 const DB_NAME = 'fleksi';
@@ -26,7 +27,7 @@ class Database {
     }
 
     async getNode(path) {
-        const pathNodes = this._getPathNodes(path);
+        const pathNodes = getPathNodesFromURL(path);
         let curr = await this._getRoot();
         for (let pathNode of pathNodes) {
             const next = curr[pathNode];
@@ -72,15 +73,6 @@ class Database {
     _getRootCollection() {
         return this._getDatabase().collection(DB_WEB_COLLECTION);
     }
-
-    _getPathNodes(path) {
-        let nodes = path.split('/');
-
-        return nodes
-            .filter( node => node !== '')
-            .map( node => node.split('?')[0]);
-    }
-
 }
 
-export default Database;
+export default new Database();

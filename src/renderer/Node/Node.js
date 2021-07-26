@@ -1,17 +1,17 @@
 import React, { useState, useContext } from 'react';
 import './Node.scss';
-import { PageContext } from '../pageContext.js';
+import { PageContext } from '../context.js';
+import { getNodeConfigFromRelativePath } from '../util.js';
 
 const Node = ({config}) => {
-
     const [hover, setHover] = useState(false);
-    const { configBeingEditted, setConfigBeingEditted } = useContext(PageContext);
+    const { setShouldShowEditor, currEditPath, setCurrEditPath } = useContext(PageContext);
 
     const renderChildren = () => {
         let childComponents = [];
-        for (let child of Object.values(config.node._children)) {
-            const childConfig = { ...config, node: child };
-            childComponents.push(<Node config={childConfig}/>);
+        for (let child of Object.keys(config.node._children)) {
+            const childNodeConfig = getNodeConfigFromRelativePath(config, ['_children',child]);
+            childComponents.push(<Node config={childNodeConfig}/>);
         }
         return childComponents;
     }
@@ -20,7 +20,8 @@ const Node = ({config}) => {
 
     const handleAuthorClick = (event) => {
         if (!config.shouldAuthor) return;
-        setConfigBeingEditted(config);
+        setShouldShowEditor(true);
+        setCurrEditPath(config.path);
         event.stopPropagation();
     }
 

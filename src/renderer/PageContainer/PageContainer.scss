@@ -4,6 +4,14 @@ body {
 }
 
 .page-container {
-    background-color: lightgray;
     min-height: 100vh;
+    align-items: stretch;
+
+    display: flex;
+    flex-direction: row;
+
+    .content {
+        flex: 1;
+    }
+
 }

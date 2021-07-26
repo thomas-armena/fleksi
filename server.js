@@ -1,12 +1,11 @@
 import express from 'express';
 import { buildComponentLibrary, buildRendererLibary } from './src/build.js';
-import Database from './src/database/index.js';
+import database from './src/database/index.js';
 import { WORKING_DIR, APP_DIR } from './src/constants.js';
 import path from 'path';
 import fs from 'fs';
 import bodyParser from 'body-parser';
-
-const database = new Database();
+import { getNodeConfig } from './src/nodeConfig.js';
 
 const startServer = () => {
     const app = express();
@@ -16,9 +15,8 @@ const startServer = () => {
     
     app.get('*', async (req, res) => {
         const shouldAuthor = req.query.author === 'true';
-        const node = await database.getNode(req.url);
-        const root = await database.getNode('/');
-        const htmlResponse = generateHTML(node, shouldAuthor, req.url, root);
+        const nodeConfig = await getNodeConfig(req.url, shouldAuthor);
+        const htmlResponse = generateHTML(nodeConfig);
         res.set('Content-Type', 'text/html');
         res.send(Buffer.from(htmlResponse));
     });
@@ -29,8 +27,7 @@ const startServer = () => {
         res.send(result);
     });
     
-    const generateHTML = (node, shouldAuthor, url, root) => {
-        const config = { node, shouldAuthor, url, root }
+    const generateHTML = (config) => {
         let templateHTML = fs.readFileSync(path.join(APP_DIR, 'template.html')).toString();
         templateHTML = templateHTML.replace("<fleksiNode>", JSON.stringify(config));
         return templateHTML;
