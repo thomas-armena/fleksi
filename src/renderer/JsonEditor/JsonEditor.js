@@ -8,26 +8,36 @@ const JsonEditor = ({ config }) => {
     if (!config) { return <div>undefined</div> }
 
     const listComponents = [];
-    const json = config.node;
-    const renderValue = (key) => {
-        const val = json[key];
-        if (typeof val === 'object') {
+
+    const renderObject = () => {
+        const json = config.node;
+        let childComponents = [];
+        for (let key of Object.keys(json)) {
             const childConfig = getNodeConfigFromRelativePath(config, [key]);
-            return <JsonEditor config = {childConfig}/>
+            childComponents.push(<JsonEditor config={childConfig} />);
+        }
+        return <ul>{childComponents}</ul>
+    }
+
+    const renderValue = () => {
+        const val = config.node;
+
+        if (typeof val === 'object') {
+            return renderObject();
+        } else if (typeof val === 'string') {
+            return <span>"{val}"</span>;
         } else {
-            return val;
+            return <span>{val}</span>;
         }
     }
 
-    for (let key of Object.keys(json)) {
-        const valueComponent = renderValue(key)
-        listComponents.push(<li>{key}: {valueComponent}</li>);
-    }
+    const key = config.path[config.path.length-1];
 
     return (
-        <ul style={{ background: arrEqual(currEditPath, config.path) ? 'darkgray': 'transparent'}}>
-            {listComponents}
-        </ul>
+        <li style={{ background: arrEqual(currEditPath, config.path) ? 'darkgray': 'transparent'}}>
+            {key}: {renderValue()}
+        </li>
+        
     )
 }
 
