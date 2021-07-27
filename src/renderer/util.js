@@ -1,17 +1,24 @@
 const getNodeConfigFromRelativePath = (nodeConfig, path) => {
-    let currNode = nodeConfig.node;
-    for (const key of path) {
-        currNode = currNode[key];
-        if (!currNode) {
-            console.error(`key doesn't exist: ${key}`);
-            return null;
-        }
-    }
+    const node = getNodeFromRelativePath(nodeConfig.node, path);
     return {
         ...nodeConfig,
         path: [...nodeConfig.path, ...path],
-        node: currNode
+        relativePath: [...nodeConfig.relativePath, ...path],
+        node: node
     }
 }
 
-export { getNodeConfigFromRelativePath };
+const getNodeFromRelativePath = (node, path) => {
+    console.log(node, path)
+    let currNode = node;
+    for (const key of path) {
+        if (key === '') continue;
+        currNode = currNode[key];
+        if (!currNode) {
+            console.error(`key doesn't exist: ${key}`);
+        }
+    }
+    return currNode;
+}
+
+export { getNodeConfigFromRelativePath, getNodeFromRelativePath };

@@ -15,6 +15,13 @@ const startServer = () => {
     
     app.get('*', async (req, res) => {
         const shouldAuthor = req.query.author === 'true';
+        const isRaw = req.query.raw === 'true';
+        if (isRaw) {
+            const node = await database.getNode(req.url, shouldAuthor);
+            res.set('Content-Type', 'application/json');
+            res.send(node);
+            return
+        }
         const nodeConfig = await getNodeConfig(req.url, shouldAuthor);
         const htmlResponse = generateHTML(nodeConfig);
         res.set('Content-Type', 'text/html');

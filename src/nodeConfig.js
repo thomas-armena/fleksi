@@ -4,7 +4,8 @@ const getNodeConfig = async (url, shouldAuthor) => {
     const node = await database.getNode(url);
     const root = await database.getNode('/');
     const path = getPathNodesFromURL(url);
-    const config = { node, shouldAuthor, url, root, path };
+    const relativePath = [];
+    const config = { node, shouldAuthor, url, root, path, relativePath };
     return config;
 }
 

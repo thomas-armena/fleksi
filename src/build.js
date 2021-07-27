@@ -48,6 +48,9 @@ const componentLibWebpackConfig = {
     module: {
         rules: [babelRule, cssRule, scssRule],
     },
+    optimization: {
+        minimize: false
+    },
 };
 
 const rendererWebpackConfig = {
@@ -60,6 +63,9 @@ const rendererWebpackConfig = {
     context: path.resolve(APP_DIR, 'renderer'),
     module: {
         rules: [babelRule, cssRule, scssRule],
+    },
+    optimization: {
+        minimize: false
     },
 };
 

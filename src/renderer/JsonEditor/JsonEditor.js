@@ -1,19 +1,20 @@
 import React, { useContext, useState } from 'react';
 import { PageContext } from '../context.js';
 import { getNodeConfigFromRelativePath } from '../util.js';
-import updateNode from '../updateNode.js';
+import { updateNode } from '../api.js';
 
 const JsonEditor = ({ config }) => {
 
     const startingNode = config ? config.node : null;
     const [edittedNode, setEdittedNode] = useState(startingNode);
-    const { currEditPath, setCurrEditPath } = useContext(PageContext);
+    const { currEditPath, getNodeFromServer } = useContext(PageContext);
     if (!config) { return <div>undefined</div> }
     const isBeingEditted = arrEqual(currEditPath, config.path);
     const parentIsBeingEditted = arrIsSubset(currEditPath, config.path);
 
     const renderObject = () => {
         const json = edittedNode;
+        if (!json) { return <div>undefined</div>}
         let childComponents = [];
         for (let key of Object.keys(json)) {
             const childConfig = getNodeConfigFromRelativePath(config, [key]);
@@ -22,9 +23,10 @@ const JsonEditor = ({ config }) => {
         return <ul>{childComponents}</ul>
     }
 
-    const handleValueChange = (event) => {
+    const handleValueChange = async (event) => {
         setEdittedNode(event.target.value);
-        updateNode(config.path, event.target.value);
+        const result = await updateNode(config.path, event.target.value);
+        getNodeFromServer();
     }
 
     const renderValue = () => {
