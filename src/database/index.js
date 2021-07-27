@@ -39,7 +39,7 @@ class Database {
 
     async setNode(path, updatedNode) {
         await this._connect();
-        const pathNodes = this._getPathNodes(path);
+        const pathNodes = getPathNodesFromURL(path);
         const key = pathNodes.join(".");
         const result = await this._getRootCollection().updateOne(
             { _isRoot: true },

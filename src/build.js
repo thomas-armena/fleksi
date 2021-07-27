@@ -38,7 +38,7 @@ const scssRule = {
 };
 
 const componentLibWebpackConfig = {
-    entry: path.join(WORKING_DIR, 'components', 'index.js'),
+    entry: ['@babel/polyfill', path.join(WORKING_DIR, 'components', 'index.js')],
     output: {
         path: path.resolve(WORKING_DIR, 'build'),
         filename: 'components.js',
@@ -51,7 +51,7 @@ const componentLibWebpackConfig = {
 };
 
 const rendererWebpackConfig = {
-    entry: path.join(APP_DIR, 'renderer', 'index.js'),
+    entry: ['@babel/polyfill', path.join(APP_DIR, 'renderer', 'index.js')],
     output: {
         path: path.resolve(WORKING_DIR, 'build'),
         filename: 'renderer.js',
