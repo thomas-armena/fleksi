@@ -1,19 +1,21 @@
-import { MongoClient } from 'mongodb';
-import FileSystem from '../filesystem/index.js';
-import { getPathNodesFromURL } from '../nodeConfig.js';
+import { MongoClient, Collection, UpdateResult, Document, Db } from 'mongodb';
+import FileSystem from './filesystem';
+import { Thing, getPathNodesFromURL, ThingObject } from './thing';
 
 const DEFAULT_URL = 'mongodb://localhost:27017';
 const DB_NAME = 'fleksi';
 const DB_WEB_COLLECTION = 'root';
 
 class Database {
+    url: string;
+    client: MongoClient;
 
     constructor(url = DEFAULT_URL) {
         this.url = url;
         this.client = new MongoClient(url);
     }
 
-    async populateWithInitialData() {
+    async populateWithInitialData(): Promise<UpdateResult | Document> {
         await this._connect();
         const fileSystem = new FileSystem();
         const initialRoot = fileSystem.getRoot();
@@ -26,51 +28,51 @@ class Database {
         return result;
     }
 
-    async getNode(path) {
+    async getThing(path: string): Promise<Thing> {
         const pathNodes = getPathNodesFromURL(path);
-        let curr = await this._getRoot();
-        for (let pathNode of pathNodes) {
-            const next = curr[pathNode];
-            if (next) curr = next;
+        let currThing: Thing = await this._getRoot();
+        for (const pathNode of pathNodes) {
+            const currThingObject = currThing as ThingObject;
+            const next = currThingObject[pathNode];
+            if (next) currThing = next;
             else break;
         }
-        return curr;
+        return currThing;
     }
 
-    async setNode(path, updatedNode) {
+    async setThing(path: string, updatedThing: Thing): Promise<UpdateResult | Document> {
         await this._connect();
         const pathNodes = getPathNodesFromURL(path);
         const key = pathNodes.join(".");
         const result = await this._getRootCollection().updateOne(
             { _isRoot: true },
-            { $set: { [key]: updatedNode } },
+            { $set: { [key]: updatedThing } },
             { upsert: true }
         );
         await this._close();
         return result;
     }
 
-    async _connect() {
+    async _connect(): Promise<void> {
         await this.client.connect();
     }
 
-    async _close() {
+    async _close(): Promise<void>  {
         await this.client.close();
     }
 
-    async _getRoot() {
+    async _getRoot(): Promise<Thing> {
         await this._connect();
-        this.connect;
         const result = await this._getRootCollection().findOne({ _isRoot: true })
         await this._close();
         return result;
     }
 
-    _getDatabase() {
-        return this.client.db(DB_NAME)
+    _getDatabase(): Db {
+        return this.client.db(DB_NAME);
     }
 
-    _getRootCollection() {
+    _getRootCollection(): Collection<Document> {
         return this._getDatabase().collection(DB_WEB_COLLECTION);
     }
 }

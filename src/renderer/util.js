@@ -1,5 +1,5 @@
 const getNodeConfigFromRelativePath = (nodeConfig, path) => {
-    const node = getNodeFromRelativePath(nodeConfig.node, path);
+    const node = getNodeFromRelativePath(nodeConfig.thing, path);
     return {
         ...nodeConfig,
         path: [...nodeConfig.path, ...path],
@@ -9,7 +9,6 @@ const getNodeConfigFromRelativePath = (nodeConfig, path) => {
 }
 
 const getNodeFromRelativePath = (node, path) => {
-    console.log(node, path)
     let currNode = node;
     for (const key of path) {
         if (key === '') continue;

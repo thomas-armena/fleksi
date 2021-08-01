@@ -9,7 +9,7 @@ const PageContainer = ({config}) => {
 
     const [shouldShowEditor, setShouldShowEditor] = useState(false);
     const [currEditPath, setCurrEditPath] = useState([]);
-    const [currNode, setCurrNode] = useState(config.node);
+    const [currNode, setCurrNode] = useState(config.thing);
 
     const getNodeFromServer = async () => {
         const newNode = await getNode(config.path);
@@ -21,7 +21,7 @@ const PageContainer = ({config}) => {
             setCurrEditPath , currNode, getNodeFromServer}}
         >
             <div className="page-container">
-                { config.shouldAuthor && shouldShowEditor && <EditorWindow config={config} />}
+                { config.authorMode && shouldShowEditor && <EditorWindow config={config} />}
                 <div className="content">
                     <Node config={config} />
                 </div>

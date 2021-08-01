@@ -5,7 +5,7 @@ import { updateNode } from '../api.js';
 
 const JsonEditor = ({ config }) => {
 
-    const startingNode = config ? config.node : null;
+    const startingNode = config ? config.thing : null;
     const [edittedNode, setEdittedNode] = useState(startingNode);
     const { currEditPath, getNodeFromServer } = useContext(PageContext);
     if (!config) { return <div>undefined</div> }

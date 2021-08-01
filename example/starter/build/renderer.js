@@ -11913,14 +11913,14 @@ var Node_Node_Node = function Node(_ref) {
   if (!Component) return /*#__PURE__*/react.createElement("div", null, JSON.stringify(node));
 
   var handleAuthorClick = function handleAuthorClick(event) {
-    if (!config.shouldAuthor) return;
+    if (!config.authorMode) return;
     setShouldShowEditor(true);
     setCurrEditPath(config.path);
     event.stopPropagation();
   };
 
   var handleMouseOver = function handleMouseOver(event) {
-    if (!config.shouldAuthor) return;
+    if (!config.authorMode) return;
     setHover(true);
     event.stopPropagation();
   };

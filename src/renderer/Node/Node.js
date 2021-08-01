@@ -17,18 +17,18 @@ const Node = ({config}) => {
         }
         return childComponents;
     }
-    const Component = Components[node._component];
+    const Component = Components[node._kind];
     if (!Component) return <div>{JSON.stringify(node)}</div>;
 
     const handleAuthorClick = (event) => {
-        if (!config.shouldAuthor) return;
+        if (!config.authorMode) return;
         setShouldShowEditor(true);
         setCurrEditPath(config.path);
         event.stopPropagation();
     }
 
     const handleMouseOver = (event) => {
-        if (!config.shouldAuthor) return;
+        if (!config.authorMode) return;
         setHover(true);
         event.stopPropagation();
     }

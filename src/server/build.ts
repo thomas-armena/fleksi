@@ -1,12 +1,8 @@
 import path from 'path';
 import webpack from 'webpack';
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { WORKING_DIR, APP_DIR } from './constants';
 
-const WORKING_DIR = path.resolve(process.cwd());
-const APP_DIR = path.resolve(dirname(fileURLToPath(import.meta.url)));
-
-const babelRule = {
+const babelRule: webpack.RuleSetRule = {
     test: /\.jsx?$/,
     exclude: /node_modules/,
     use: {
@@ -20,24 +16,21 @@ const babelRule = {
     },
 };
 
-const cssRule = {
+const cssRule: webpack.RuleSetRule = {
     test: /\.css$/i,
     use: ["style-loader", "css-loader"],
 };
 
-const scssRule = {
+const scssRule: webpack.RuleSetRule = {
     test: /\.s[ac]ss$/i,
     use: [
-      // Creates `style` nodes from JS strings
       "style-loader",
-      // Translates CSS into CommonJS
       "css-loader",
-      // Compiles Sass to CSS
       "sass-loader",
     ],
 };
 
-const componentLibWebpackConfig = {
+const componentLibWebpackConfig: webpack.Configuration = {
     entry: ['@babel/polyfill', path.join(WORKING_DIR, 'components', 'index.js')],
     output: {
         path: path.resolve(WORKING_DIR, 'build'),
@@ -53,8 +46,8 @@ const componentLibWebpackConfig = {
     },
 };
 
-const rendererWebpackConfig = {
-    entry: ['@babel/polyfill', path.join(APP_DIR, 'renderer', 'index.js')],
+const rendererWebpackConfig: webpack.Configuration = {
+    entry: ['@babel/polyfill', path.join(APP_DIR, '..', 'src', 'renderer', 'index.js')],
     output: {
         path: path.resolve(WORKING_DIR, 'build'),
         filename: 'renderer.js',
@@ -69,7 +62,7 @@ const rendererWebpackConfig = {
     },
 };
 
-const runWithConfig = (config) => {
+const runWithConfig = (config: webpack.Configuration) => {
     return new Promise((resolve, reject) => {
         const compiler = webpack(config);
         compiler.run((err, stats) => {
