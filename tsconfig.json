@@ -7,12 +7,13 @@
         "moduleResolution": "node",
         "sourceMap": true,
         "outDir": "dist",
-        "baseUrl": "./src/server",
+        "baseUrl": "./src/",
         "paths": {
             "*": [
                 "node_modules/*"
             ]
-        }
+        },
+        "jsx": "react",
     },
     "include": [
         "src/**/*"

@@ -5,7 +5,8 @@ import { WORKING_DIR, APP_DIR } from './constants';
 import path from 'path';
 import fs from 'fs';
 import bodyParser from 'body-parser';
-import { getThingConfig, Thing, ThingConfig } from './thing';
+import { Thing, ThingConfig } from '../thing';
+import { getThingConfig } from './utils';
 
 interface ThingPostBody {
     set: Thing
@@ -25,9 +26,10 @@ const startServer = () => {
             res.set('Content-Type', 'application/json');
             res.send(node);
         } else {
-            const nodeConfig = await getThingConfig(req.url, authorMode);
-            console.log(nodeConfig);
-            const htmlResponse = generateHTML(nodeConfig);
+            console.log(getThingConfig);
+            const thingConfig = await getThingConfig(req.url, authorMode);
+            console.log(thingConfig);
+            const htmlResponse = generateHTML(thingConfig);
             res.set('Content-Type', 'text/html');
             res.send(Buffer.from(htmlResponse));
         }
@@ -40,7 +42,7 @@ const startServer = () => {
     });
 
     const generateHTML = (config: ThingConfig): string => {
-        let templateHTML = fs.readFileSync(path.join(APP_DIR, '..', 'src', 'server', 'template.html')).toString();
+        let templateHTML = fs.readFileSync(path.join(APP_DIR, '..', '..', 'src', 'server', 'template.html')).toString();
         templateHTML = templateHTML.replace("<fleksiNode>", JSON.stringify(config));
         return templateHTML;
     }

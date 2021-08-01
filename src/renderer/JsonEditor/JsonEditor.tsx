@@ -1,9 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { PageContext } from '../context.js';
-import { getNodeConfigFromRelativePath } from '../util.js';
+import { getThingConfigFromRelativePath } from '../util.js';
 import { updateNode } from '../api.js';
+import { ThingConfig } from '../../thing';
 
-const JsonEditor = ({ config }) => {
+type JsonEditorProps = {
+    config: ThingConfig
+}
+
+const JsonEditor = ({ config }: JsonEditorProps): JSX.Element => {
 
     const startingNode = config ? config.thing : null;
     const [edittedNode, setEdittedNode] = useState(startingNode);
@@ -15,17 +20,17 @@ const JsonEditor = ({ config }) => {
     const renderObject = () => {
         const json = edittedNode;
         if (!json) { return <div>undefined</div>}
-        let childComponents = [];
-        for (let key of Object.keys(json)) {
-            const childConfig = getNodeConfigFromRelativePath(config, [key]);
+        const childComponents = [];
+        for (const key of Object.keys(json)) {
+            const childConfig = getThingConfigFromRelativePath(config, [key]);
             childComponents.push(<JsonEditor config={childConfig} />);
         }
         return <ul>{childComponents}</ul>
     }
 
-    const handleValueChange = async (event) => {
+    const handleValueChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         setEdittedNode(event.target.value);
-        const result = await updateNode(config.path, event.target.value);
+        await updateNode(config.path, event.target.value);
         getNodeFromServer();
     }
 
@@ -35,7 +40,7 @@ const JsonEditor = ({ config }) => {
         if (typeof val === 'object') {
             return renderObject();
         } else if (typeof val === 'string') {
-            return <span>"{val}"</span>;
+            return <span>{'"'}{val}{'"'}</span>;
         } else {
             return <span>{val}</span>;
         }
@@ -46,7 +51,7 @@ const JsonEditor = ({ config }) => {
         if (typeof val === 'object') {
             return renderObject();
         } else if (typeof val === 'string') {
-            return <input type='text' value={edittedNode} onChange={handleValueChange}></input>;
+            return <input type='text' value={edittedNode as string} onChange={handleValueChange}></input>;
         } else {
             return <span>{val}</span>;
         }
@@ -62,7 +67,7 @@ const JsonEditor = ({ config }) => {
     )
 }
 
-const arrEqual = (arr1, arr2) => {
+const arrEqual = (arr1: string[], arr2: string[]): boolean => {
     if (arr1.length !== arr2.length) return false;
     for (let i = 0; i < arr1.length; i++){
         if (arr1[i] != arr2[i]) return false;
@@ -70,7 +75,7 @@ const arrEqual = (arr1, arr2) => {
     return true;
 }
 
-const arrIsSubset = (arr1, arr2) => {
+const arrIsSubset = (arr1: string[], arr2: string[]): boolean => {
     if (arr1.length > arr2.length) return false;
     for (let i = 0; i < arr1.length; i++){
         if (arr1[i] != arr2[i]) return false;

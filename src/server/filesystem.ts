@@ -1,5 +1,5 @@
 import { WORKING_DIR } from './constants';
-import { Thing, ThingObject } from './thing';
+import { Thing, ThingObject } from '../thing';
 import path from 'path';
 import fs from 'fs';
 

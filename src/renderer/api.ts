@@ -13,7 +13,6 @@ const updateNode = async (path, value) => {
             },
             //cancelToken: updateCancelToken.token
         });
-        console.log(response);
         return response;
     } catch(error) {
         console.error(error);

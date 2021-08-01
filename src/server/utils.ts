@@ -1,23 +1,5 @@
 import database from './database';
-
-export interface ThingObject {
-    _kind?: string,
-    _arguments?: ThingObject,
-    _children?: ThingObject[],
-    _isRoot?: boolean,
-    [key: string]: Thing,
-}
-
-export interface ThingConfig {
-    thing: Thing,
-    rootThing: Thing,
-    authorMode: boolean,
-    url: string,
-    path: string[],
-    relativePath: string[]
-}
-
-export type Thing = ThingObject | string | number | boolean | Thing[];
+import { ThingConfig } from '../thing';
 
 const getThingConfig = async (url: string, authorMode: boolean): Promise<ThingConfig> => {
     const thing = await database.getThing(url);

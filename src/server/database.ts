@@ -1,6 +1,7 @@
 import { MongoClient, Collection, UpdateResult, Document, Db } from 'mongodb';
 import FileSystem from './filesystem';
-import { Thing, getPathNodesFromURL, ThingObject } from './thing';
+import { Thing, ThingObject } from '../thing';
+import { getPathNodesFromURL } from './utils';
 
 const DEFAULT_URL = 'mongodb://localhost:27017';
 const DB_NAME = 'fleksi';

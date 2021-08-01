@@ -4,8 +4,13 @@ import Node from '../Node/Node.js';
 import EditorWindow from '../EditorWindow/EditorWindow.js';
 import { getNode } from '../api.js';
 import { PageContext } from '../context.js';
+import { ThingConfig } from '../../thing';
 
-const PageContainer = ({config}) => {
+type PageContainerProps = {
+    config: ThingConfig
+}
+
+const PageContainer = ({ config }: PageContainerProps): JSX.Element => {
 
     const [shouldShowEditor, setShouldShowEditor] = useState(false);
     const [currEditPath, setCurrEditPath] = useState([]);
