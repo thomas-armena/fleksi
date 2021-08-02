@@ -17,10 +17,8 @@ const updateNode = async (path: string[], value: Thing): Promise<AxiosResponse |
             },
             cancelToken: updateCancelSource.token
         });
-        console.log('responsee', response);
         return response;
     } catch(error) {
-        console.log("in error")
         console.error(error);
         return null;
     }
