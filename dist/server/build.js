@@ -32,6 +32,11 @@ const scssRule = {
         "sass-loader",
     ],
 };
+const tsRule = {
+    test: /\.tsx?$/,
+    use: 'ts-loader',
+    exclude: /node_modules/,
+};
 const componentLibWebpackConfig = {
     entry: ['@babel/polyfill', path_1.default.join(constants_1.WORKING_DIR, 'components', 'index.js')],
     output: {
@@ -41,14 +46,14 @@ const componentLibWebpackConfig = {
     },
     context: path_1.default.resolve(constants_1.WORKING_DIR, 'src'),
     module: {
-        rules: [babelRule, cssRule, scssRule],
+        rules: [babelRule, cssRule, scssRule, tsRule],
     },
     optimization: {
         minimize: false
     },
 };
 const rendererWebpackConfig = {
-    entry: ['@babel/polyfill', path_1.default.join(constants_1.APP_DIR, '..', 'src', 'renderer', 'index.js')],
+    entry: ['@babel/polyfill', path_1.default.join(constants_1.APP_DIR, '..', '..', 'src', 'renderer', 'index.tsx')],
     output: {
         path: path_1.default.resolve(constants_1.WORKING_DIR, 'build'),
         filename: 'renderer.js',
@@ -56,7 +61,10 @@ const rendererWebpackConfig = {
     },
     context: path_1.default.resolve(constants_1.APP_DIR, 'renderer'),
     module: {
-        rules: [babelRule, cssRule, scssRule],
+        rules: [babelRule, cssRule, scssRule, tsRule],
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
     },
     optimization: {
         minimize: false

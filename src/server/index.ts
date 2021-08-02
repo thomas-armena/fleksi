@@ -52,8 +52,8 @@ const startServer = () => {
 
 const start = async () => {
     const result = await database.populateWithInitialData();
-    await buildComponentLibrary();
-    await buildRendererLibary();
+    console.log(await buildComponentLibrary());
+    console.log(await buildRendererLibary());
     startServer();
 }
 

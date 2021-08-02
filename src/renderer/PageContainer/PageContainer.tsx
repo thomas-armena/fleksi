@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './PageContainer.scss';
-import Node from '../Node/Node.js';
-import EditorWindow from '../EditorWindow/EditorWindow.js';
-import { getNode } from '../api.js';
-import { PageContext } from '../context.js';
+import ThingContainer from '../ThingContainer/ThingContainer';
+import EditorWindow from '../EditorWindow/EditorWindow';
+import { getNode } from '../api';
+import { PageContext } from '../context';
 import { ThingConfig } from '../../thing';
 
 type PageContainerProps = {
@@ -28,7 +28,7 @@ const PageContainer = ({ config }: PageContainerProps): JSX.Element => {
             <div className="page-container">
                 { config.authorMode && shouldShowEditor && <EditorWindow config={config} />}
                 <div className="content">
-                    <Node config={config} />
+                    <ThingContainer config={config} />
                 </div>
             </div>
             

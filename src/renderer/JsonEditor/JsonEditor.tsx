@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { PageContext } from '../context.js';
-import { getThingConfigFromRelativePath } from '../util.js';
-import { updateNode } from '../api.js';
+import { PageContext } from '../context';
+import { getThingConfigFromRelativePath } from '../util';
+import { updateNode } from '../api';
 import { ThingConfig } from '../../thing';
 
 type JsonEditorProps = {

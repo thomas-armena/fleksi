@@ -1,7 +1,7 @@
 import React, { useState, useContext, MouseEvent } from 'react';
-import './Node.scss';
-import { PageContext } from '../context.js';
-import { getThingConfigFromRelativePath, getThingFromRelativePath } from '../util.js';
+import './ThingContainer.scss';
+import { PageContext } from '../context';
+import { getThingConfigFromRelativePath, getThingFromRelativePath } from '../util';
 import { ThingConfig, ThingObject } from '../../thing';
 import componentlib from '../componentlib';
 
@@ -9,7 +9,7 @@ type ThingProps = {
     config: ThingConfig
 };
 
-const Thing = ({config}: ThingProps): JSX.Element => {
+const ThingContainer = ({config}: ThingProps): JSX.Element => {
     const [hover, setHover] = useState(false);
     const { setShouldShowEditor, currNode, setCurrEditPath } = useContext(PageContext);
     const thing = getThingFromRelativePath(currNode, config.relativePath);
@@ -20,7 +20,7 @@ const Thing = ({config}: ThingProps): JSX.Element => {
         const childComponents = [];
         for (const child of Object.keys(thingObject._children)) {
             const childNodeConfig = getThingConfigFromRelativePath(config, ['_children',child]);
-            childComponents.push(<Thing config={childNodeConfig}/>);
+            childComponents.push(<ThingContainer config={childNodeConfig}/>);
         }
         return childComponents;
     }
@@ -57,4 +57,4 @@ const Thing = ({config}: ThingProps): JSX.Element => {
     ) 
 };
 
-export default Thing;
+export default ThingContainer;

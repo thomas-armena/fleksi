@@ -55,8 +55,8 @@ const startServer = () => {
 };
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield database_1.default.populateWithInitialData();
-    yield build_1.buildComponentLibrary();
-    yield build_1.buildRendererLibary();
+    console.log(yield build_1.buildComponentLibrary());
+    console.log(yield build_1.buildRendererLibary());
     startServer();
 });
 start().catch((err) => console.log(err));

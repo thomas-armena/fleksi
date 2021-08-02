@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThingConfig } from '../../thing';
-import JsonEditor from '../JsonEditor/JsonEditor.js';
+import JsonEditor from '../JsonEditor/JsonEditor';
 import './EditorWindow.scss';
 
 type EditorWindowProps = {
