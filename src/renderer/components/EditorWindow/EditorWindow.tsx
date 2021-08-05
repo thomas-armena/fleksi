@@ -5,9 +5,10 @@ import { RootState } from '../../state/store';
 import './EditorWindow.scss';
 
 const EditorWindow = (): JSX.Element => {
-    const { path } = useSelector((state: RootState) => state.context);
+    const { path, synced } = useSelector((state: RootState) => state.context);
     return (
         <div className="editor-window">
+            <div>{synced ? 'Up to date' : 'Saving...'}</div>
             <JsonEditor path={path} />
         </div>
     )

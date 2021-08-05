@@ -24,7 +24,7 @@ const updateNode = async (path: string[], value: Thing): Promise<AxiosResponse |
     }
 }
 
-const getNode = async (path: string[]): Promise<Thing> => {
+const fetchNode = async (path: string[]): Promise<Thing> => {
     const url = getUrlFromPathNodes(path)+'?raw=true';
     try {
         if (getCancelSource != null) {
@@ -46,4 +46,4 @@ const getUrlFromPathNodes = (path: string[]): string => {
     return url;
 }
 
-export { updateNode, getNode };
+export { updateNode, fetchNode };

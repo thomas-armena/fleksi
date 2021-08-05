@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit'
 import { ThingAppContext, PathNodes, ThingObject, Thing } from '../../utils/types';
+import { fetchNode, updateNode } from '../api';
 
 export type EditThingPayload = {
     path: PathNodes,
@@ -43,20 +44,48 @@ export const contextSlice = createSlice({
         editThing: (state, action: PayloadAction<EditThingPayload>) => {
             const { path, newValue } = action.payload;
             let currThing = state.rootThing as ThingObject;
-            console.log(path, newValue);
             for (const node of path.slice(0,-1)) {
                 if (node === "") continue;
                 currThing = currThing[node] as ThingObject;
             }
             const key = path[path.length-1]
-            console.log(key, newValue);
             currThing[key] = newValue;
             state.synced = false;
+        },
+        updateRootThing: (state, action: PayloadAction<ThingObject>) => {
+            state.rootThing = action.payload;
+            state.synced = true;
         }
-
     },
 })
 
-export const { init, toggleEditorWindow, startEdittingThing, editThing } = contextSlice.actions
+export const { init, toggleEditorWindow, startEdittingThing, editThing, updateRootThing } = contextSlice.actions;
+
+let updateCount = 1;
+export const editThingAndUpdate = (payload: EditThingPayload) => {
+    return async (dispatch: Dispatch): Promise<void> => {
+        dispatch(editThing(payload));
+        updateCount += 1;
+        const currUpdateCount = updateCount;
+        await delay(3000);
+        if (updateCount != currUpdateCount) return;
+        try {
+            await updateNode(payload.path, payload.newValue);
+            const rootThing = await fetchNode([""]) as ThingObject;
+            dispatch(updateRootThing(rootThing));
+        } catch(error) {
+            console.log('update failed');
+            console.error(error);
+        }
+    }
+}
+
+const delay = (t: number): Promise<void> => {
+    return new Promise((resolve) => {
+        setTimeout(function() {
+            resolve();
+        }, t);
+    });
+ }
 
 export default contextSlice.reducer

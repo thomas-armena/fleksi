@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNode = exports.updateNode = void 0;
+exports.fetchNode = exports.updateNode = void 0;
 const axios_1 = __importDefault(require("axios"));
 let updateCancelSource = null;
 let getCancelSource = null;
@@ -37,7 +37,7 @@ const updateNode = (path, value) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.updateNode = updateNode;
-const getNode = (path) => __awaiter(void 0, void 0, void 0, function* () {
+const fetchNode = (path) => __awaiter(void 0, void 0, void 0, function* () {
     const url = getUrlFromPathNodes(path) + '?raw=true';
     try {
         if (getCancelSource != null) {
@@ -53,7 +53,7 @@ const getNode = (path) => __awaiter(void 0, void 0, void 0, function* () {
         console.error(error);
     }
 });
-exports.getNode = getNode;
+exports.fetchNode = fetchNode;
 const getUrlFromPathNodes = (path) => {
     let url = path.join('/');
     if (url[0] != '/')

@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
-const api_1 = require("../../api");
 const react_redux_1 = require("react-redux");
 const path_1 = require("../../../utils/path");
 const contextSlice_1 = require("../../state/contextSlice");
@@ -33,9 +32,7 @@ const JsonEditor = ({ path }) => {
     };
     const handleValueChange = (event) => __awaiter(void 0, void 0, void 0, function* () {
         const newValue = event.target.value;
-        dispatch(contextSlice_1.editThing({ path, newValue }));
-        yield api_1.updateNode(path, newValue);
-        // getNodeFromServer();
+        dispatch(contextSlice_1.editThingAndUpdate({ path, newValue }));
     });
     const renderValue = () => {
         if (typeof thing === 'object') {
