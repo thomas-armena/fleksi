@@ -1,6 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
-import { WORKING_DIR, APP_DIR } from './constants';
+import { WORKING_DIR, APP_DIR } from '../utils/constants';
 
 const babelRule: webpack.RuleSetRule = {
     test: /\.jsx?$/,
@@ -71,7 +71,7 @@ const rendererWebpackConfig: webpack.Configuration = {
     },
 };
 
-const runWithConfig = (config: webpack.Configuration) => {
+const runWithConfig = (config: webpack.Configuration): Promise<string> => {
     return new Promise((resolve, reject) => {
         const compiler = webpack(config);
         compiler.run((err, stats) => {
@@ -87,8 +87,8 @@ const runWithConfig = (config: webpack.Configuration) => {
     });
 }
 
-const buildComponentLibrary = () => runWithConfig(componentLibWebpackConfig);
-const buildRendererLibary = () => runWithConfig(rendererWebpackConfig);
+const buildComponentLibrary = (): Promise<string> => runWithConfig(componentLibWebpackConfig);
+const buildRendererLibary = (): Promise<string> => runWithConfig(rendererWebpackConfig);
 
 export { buildComponentLibrary, buildRendererLibary };
 

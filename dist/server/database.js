@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const filesystem_1 = __importDefault(require("./filesystem"));
-const utils_1 = require("./utils");
+const path_1 = require("../utils/path");
 const DEFAULT_URL = 'mongodb://localhost:27017';
 const DB_NAME = 'fleksi';
 const DB_WEB_COLLECTION = 'root';
@@ -35,7 +35,7 @@ class Database {
     }
     getThing(path) {
         return __awaiter(this, void 0, void 0, function* () {
-            const pathNodes = utils_1.getPathNodesFromURL(path);
+            const pathNodes = path_1.getPathNodesFromURL(path);
             let currThing = yield this._getRoot();
             for (const pathNode of pathNodes) {
                 const currThingObject = currThing;
@@ -51,7 +51,7 @@ class Database {
     setThing(path, updatedThing) {
         return __awaiter(this, void 0, void 0, function* () {
             yield this._connect();
-            const pathNodes = utils_1.getPathNodesFromURL(path);
+            const pathNodes = path_1.getPathNodesFromURL(path);
             const key = pathNodes.join(".");
             const result = yield this._getRootCollection().updateOne({ _isRoot: true }, { $set: { [key]: updatedThing } }, { upsert: true });
             yield this._close();

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse, CancelTokenSource } from 'axios';
-import { Thing } from '../thing';
+import { Thing } from '../utils/types';
 
 let updateCancelSource: CancelTokenSource = null;
 let getCancelSource: CancelTokenSource = null;

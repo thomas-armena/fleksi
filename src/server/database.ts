@@ -1,7 +1,7 @@
 import { MongoClient, Collection, UpdateResult, Document, Db } from 'mongodb';
 import FileSystem from './filesystem';
-import { Thing, ThingObject } from '../thing';
-import { getPathNodesFromURL } from './utils';
+import { Thing, ThingObject } from '../utils/types';
+import { getPathNodesFromURL } from '../utils/path';
 
 const DEFAULT_URL = 'mongodb://localhost:27017';
 const DB_NAME = 'fleksi';
@@ -34,7 +34,7 @@ class Database {
         let currThing: Thing = await this._getRoot();
         for (const pathNode of pathNodes) {
             const currThingObject = currThing as ThingObject;
-            const next = currThingObject[pathNode];
+            const next = currThingObject[pathNode] as Thing;
             if (next) currThing = next;
             else break;
         }

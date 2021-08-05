@@ -1,15 +1,11 @@
 import React from "react";
-import { ThingConfig } from "../thing";
+import { ThingComponent } from "../utils/types";
 
-interface ThingComponent {
-    config: ThingConfig
+type ComponentLibrary = {
+    [key: string]: React.FunctionComponent<{ thingComponent: ThingComponent }>
 }
 
 declare const Components: ComponentLibrary;
-
-type ComponentLibrary = {
-    [key: string]: React.ComponentType<ThingComponent>
-}
 
 const componentlib: ComponentLibrary = Components;
 export default componentlib;

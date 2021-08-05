@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildRendererLibary = exports.buildComponentLibrary = void 0;
 const path_1 = __importDefault(require("path"));
 const webpack_1 = __importDefault(require("webpack"));
-const constants_1 = require("./constants");
+const constants_1 = require("../utils/constants");
 const babelRule = {
     test: /\.jsx?$/,
     exclude: /node_modules/,

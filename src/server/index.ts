@@ -1,16 +1,14 @@
 import express from 'express';
 import { buildComponentLibrary, buildRendererLibary } from './build';
 import database from './database';
-import { WORKING_DIR, APP_DIR } from './constants';
 import path from 'path';
 import fs from 'fs';
 import bodyParser from 'body-parser';
-import { Thing, ThingConfig } from '../thing';
-import { getThingConfig } from './utils';
+import { Thing, ThingAppContext, ThingObject } from '../utils/types';
+import { PATH_TO_HTML_TEMPLATE, THING_APP_REGEX, WORKING_DIR } from '../utils/constants';
+import { getPathNodesFromURL } from '../utils/path';
 
-interface ThingPostBody {
-    set: Thing
-}
+interface ThingPostBody { set: Thing }
 
 const startServer = () => {
     const app = express();
@@ -22,14 +20,18 @@ const startServer = () => {
         const authorMode = req.query.author === 'true';
         const isRaw = req.query.raw === 'true';
         if (isRaw) {
-            const node = await database.getThing(req.url);
             res.set('Content-Type', 'application/json');
-            res.send(node);
+            const thing = await database.getThing(req.url);
+            res.send(thing);
         } else {
-            console.log(getThingConfig);
-            const thingConfig = await getThingConfig(req.url, authorMode);
-            console.log(thingConfig);
-            const htmlResponse = generateHTML(thingConfig);
+            const rootThing = await database.getThing('/') as ThingObject;
+            const pathNodes = getPathNodesFromURL(req.url);
+            const thingAppContext: ThingAppContext = {
+                rootThing,
+                authorMode,
+                path: pathNodes
+            };
+            const htmlResponse = generateHTML(thingAppContext);
             res.set('Content-Type', 'text/html');
             res.send(Buffer.from(htmlResponse));
         }
@@ -41,9 +43,9 @@ const startServer = () => {
         res.send(result);
     });
 
-    const generateHTML = (config: ThingConfig): string => {
-        let templateHTML = fs.readFileSync(path.join(APP_DIR, '..', '..', 'src', 'server', 'template.html')).toString();
-        templateHTML = templateHTML.replace("<fleksiNode>", JSON.stringify(config));
+    const generateHTML = (thingAppContext: ThingAppContext): string => {
+        let templateHTML = fs.readFileSync(PATH_TO_HTML_TEMPLATE).toString();
+        templateHTML = templateHTML.replace(THING_APP_REGEX, JSON.stringify(thingAppContext));
         return templateHTML;
     }
 
@@ -51,9 +53,9 @@ const startServer = () => {
 }
 
 const start = async () => {
-    const result = await database.populateWithInitialData();
-    console.log(await buildComponentLibrary());
-    console.log(await buildRendererLibary());
+    await database.populateWithInitialData();
+    await buildComponentLibrary()
+    await buildRendererLibary()
     startServer();
 }
 

@@ -15,11 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const build_1 = require("./build");
 const database_1 = __importDefault(require("./database"));
-const constants_1 = require("./constants");
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const utils_1 = require("./utils");
+const constants_1 = require("../utils/constants");
+const path_2 = require("../utils/path");
 const startServer = () => {
     const app = express_1.default();
     app.use(body_parser_1.default.json());
@@ -28,15 +28,19 @@ const startServer = () => {
         const authorMode = req.query.author === 'true';
         const isRaw = req.query.raw === 'true';
         if (isRaw) {
-            const node = yield database_1.default.getThing(req.url);
             res.set('Content-Type', 'application/json');
-            res.send(node);
+            const thing = yield database_1.default.getThing(req.url);
+            res.send(thing);
         }
         else {
-            console.log(utils_1.getThingConfig);
-            const thingConfig = yield utils_1.getThingConfig(req.url, authorMode);
-            console.log(thingConfig);
-            const htmlResponse = generateHTML(thingConfig);
+            const rootThing = yield database_1.default.getThing('/');
+            const pathNodes = path_2.getPathNodesFromURL(req.url);
+            const thingAppContext = {
+                rootThing,
+                authorMode,
+                path: pathNodes
+            };
+            const htmlResponse = generateHTML(thingAppContext);
             res.set('Content-Type', 'text/html');
             res.send(Buffer.from(htmlResponse));
         }
@@ -46,17 +50,17 @@ const startServer = () => {
         const result = yield database_1.default.setThing(req.url, thingPostBody.set);
         res.send(result);
     }));
-    const generateHTML = (config) => {
-        let templateHTML = fs_1.default.readFileSync(path_1.default.join(constants_1.APP_DIR, '..', '..', 'src', 'server', 'template.html')).toString();
-        templateHTML = templateHTML.replace("<fleksiNode>", JSON.stringify(config));
+    const generateHTML = (thingAppContext) => {
+        let templateHTML = fs_1.default.readFileSync(constants_1.PATH_TO_HTML_TEMPLATE).toString();
+        templateHTML = templateHTML.replace(constants_1.THING_APP_REGEX, JSON.stringify(thingAppContext));
         return templateHTML;
     };
     app.listen(3000);
 };
 const start = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield database_1.default.populateWithInitialData();
-    console.log(yield build_1.buildComponentLibrary());
-    console.log(yield build_1.buildRendererLibary());
+    yield database_1.default.populateWithInitialData();
+    yield build_1.buildComponentLibrary();
+    yield build_1.buildRendererLibary();
     startServer();
 });
 start().catch((err) => console.log(err));

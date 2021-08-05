@@ -1,5 +1,5 @@
-import { WORKING_DIR } from './constants';
-import { Thing, ThingObject } from '../thing';
+import { WORKING_DIR } from '../utils/constants';
+import { Thing, ThingObject } from '../utils/types';
 import path from 'path';
 import fs from 'fs';
 
@@ -24,7 +24,7 @@ class FileSystem {
         const urlNodes = url.split('/');
         urlNodes.splice(0,1)
         for(const urlNode of urlNodes) {
-            const childThing: Thing = (thing as ThingObject)[urlNode];
+            const childThing: Thing = (thing as ThingObject)[urlNode] as Thing;
             if (childThing) thing = childThing;
         }
         return thing;

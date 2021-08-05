@@ -29,11 +29,9 @@ const updateNode = (path, value) => __awaiter(void 0, void 0, void 0, function* 
             },
             cancelToken: updateCancelSource.token
         });
-        console.log('responsee', response);
         return response;
     }
     catch (error) {
-        console.log("in error");
         console.error(error);
         return null;
     }

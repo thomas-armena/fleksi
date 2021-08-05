@@ -4,17 +4,22 @@ export interface ThingObject {
     _arguments?: ThingObject,
     _children?: ThingObject[],
     _isRoot?: boolean,
-    [key: string]: Thing,
+    [key: string]: unknown,
 }
 
-export interface ThingConfig {
-    thing: Thing,
-    rootThing: Thing,
+export interface ThingAppContext {
+    rootThing: ThingObject,
     authorMode: boolean,
-    url: string,
     path: string[],
-    relativePath: string[]
 }
+
+export interface ThingComponent {
+    thing: Thing,
+    authorMode: boolean,
+    path: PathNodes,
+}
+
+export type PathNodes = string[];
 
 export type Thing = ThingObject | string | number | boolean | Thing[];
 
