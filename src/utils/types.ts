@@ -7,6 +7,10 @@ export interface ThingObject {
     [key: string]: unknown,
 }
 
+export interface ThingFile {
+    _kind?: string,
+}
+
 export interface ThingAppContext {
     rootThing: ThingObject,
     authorMode: boolean,
@@ -21,5 +25,5 @@ export interface ThingComponent {
 
 export type PathNodes = string[];
 
-export type Thing = ThingObject | string | number | boolean | Thing[];
+export type Thing = ThingObject | ThingFile | string | number | boolean | Thing[];
 

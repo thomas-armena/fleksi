@@ -20,6 +20,7 @@ const fs_1 = __importDefault(require("fs"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const constants_1 = require("../utils/constants");
 const path_2 = require("../utils/path");
+const kinds_1 = require("../utils/kinds");
 const startServer = () => {
     const app = express_1.default();
     app.use(body_parser_1.default.json());
@@ -27,10 +28,14 @@ const startServer = () => {
     app.get('*', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const authorMode = req.query.author === 'true';
         const isRaw = req.query.raw === 'true';
+        const thing = yield database_1.default.getThing(req.url);
         if (isRaw) {
             res.set('Content-Type', 'application/json');
-            const thing = yield database_1.default.getThing(req.url);
             res.send(thing);
+        }
+        else if (typeof thing === 'object' && thing._kind === kinds_1.KIND.FILE) {
+            res.set('Content-Type', 'image/png');
+            database_1.default.getFileWriteStream(req.url.slice(1)).pipe(res);
         }
         else {
             const rootThing = yield database_1.default.getThing('/');

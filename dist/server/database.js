@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const filesystem_1 = __importDefault(require("./filesystem"));
 const path_1 = require("../utils/path");
+const kinds_1 = require("../utils/kinds");
 const DEFAULT_URL = 'mongodb://localhost:27017';
 const DB_NAME = 'fleksi';
 const DB_WEB_COLLECTION = 'root';
@@ -22,14 +23,18 @@ class Database {
     constructor(url = DEFAULT_URL) {
         this.url = url;
         this.client = new mongodb_1.MongoClient(url);
+        this.bucket = new mongodb_1.GridFSBucket(this._getDatabase());
     }
     populateWithInitialData() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this._connect();
+            yield this.connect();
+            this.bucket.drop();
             const fileSystem = new filesystem_1.default();
             const initialRoot = fileSystem.getRoot();
+            console.log(initialRoot);
             const result = yield this._getRootCollection().updateOne({ _isRoot: true }, { $set: initialRoot }, { upsert: true });
-            yield this._close();
+            yield this._uploadFiles(initialRoot, fileSystem, []);
+            yield this.close();
             return result;
         });
     }
@@ -50,29 +55,35 @@ class Database {
     }
     setThing(path, updatedThing) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this._connect();
+            yield this.connect();
             const pathNodes = path_1.getPathNodesFromURL(path);
             const key = pathNodes.join(".");
             const result = yield this._getRootCollection().updateOne({ _isRoot: true }, { $set: { [key]: updatedThing } }, { upsert: true });
-            yield this._close();
+            yield this.close();
             return result;
         });
     }
-    _connect() {
+    getFileWriteStream(url) {
+        this.connect();
+        return this.bucket.openDownloadStreamByName(url)
+            .on('end', () => this.close())
+            .on('close', () => this.close());
+    }
+    connect() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.client.connect();
         });
     }
-    _close() {
+    close() {
         return __awaiter(this, void 0, void 0, function* () {
             yield this.client.close();
         });
     }
     _getRoot() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this._connect();
+            yield this.connect();
             const result = yield this._getRootCollection().findOne({ _isRoot: true });
-            yield this._close();
+            yield this.close();
             return result;
         });
     }
@@ -81,6 +92,35 @@ class Database {
     }
     _getRootCollection() {
         return this._getDatabase().collection(DB_WEB_COLLECTION);
+    }
+    _uploadFiles(thingObject, fileSystem, path) {
+        return __awaiter(this, void 0, void 0, function* () {
+            for (const key of Object.keys(thingObject)) {
+                const childThing = thingObject[key];
+                if (typeof childThing === 'object') {
+                    const childThingObject = childThing;
+                    if (childThingObject._kind === kinds_1.KIND.FILE) {
+                        const fileDir = [...path, key].join('/');
+                        try {
+                            yield this._uploadFile(fileDir, fileSystem);
+                        }
+                        catch (error) {
+                            console.error(error);
+                        }
+                    }
+                    yield this._uploadFiles(childThingObject, fileSystem, [...path, key]);
+                }
+            }
+        });
+    }
+    _uploadFile(fileDir, fileSystem) {
+        return new Promise((resolve, reject) => {
+            const readStream = fileSystem.readStreams[fileDir];
+            const writeStream = this.bucket.openUploadStream(fileDir)
+                .on('error', (err) => reject(err))
+                .on('finish', () => resolve());
+            readStream.pipe(writeStream);
+        });
     }
 }
 exports.default = new Database();

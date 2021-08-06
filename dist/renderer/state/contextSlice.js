@@ -40,14 +40,12 @@ exports.contextSlice = toolkit_1.createSlice({
         editThing: (state, action) => {
             const { path, newValue } = action.payload;
             let currThing = state.rootThing;
-            console.log(path, newValue);
             for (const node of path.slice(0, -1)) {
                 if (node === "")
                     continue;
                 currThing = currThing[node];
             }
             const key = path[path.length - 1];
-            console.log(key, newValue);
             currThing[key] = newValue;
             state.synced = false;
         },

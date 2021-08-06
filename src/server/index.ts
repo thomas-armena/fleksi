@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import { Thing, ThingAppContext, ThingObject } from '../utils/types';
 import { PATH_TO_HTML_TEMPLATE, THING_APP_REGEX, WORKING_DIR } from '../utils/constants';
 import { getPathNodesFromURL } from '../utils/path';
+import { KIND } from '../utils/kinds';
 
 interface ThingPostBody { set: Thing }
 
@@ -19,10 +20,14 @@ const startServer = () => {
     app.get('*', async (req, res) => {
         const authorMode = req.query.author === 'true';
         const isRaw = req.query.raw === 'true';
+        const thing = await database.getThing(req.url);
         if (isRaw) {
             res.set('Content-Type', 'application/json');
-            const thing = await database.getThing(req.url);
             res.send(thing);
+        } else if (typeof thing === 'object' && (thing as ThingObject)._kind === KIND.FILE) {
+        
+            res.set('Content-Type', 'image/png');
+            database.getFileWriteStream(req.url.slice(1)).pipe(res);
         } else {
             const rootThing = await database.getThing('/') as ThingObject;
             const pathNodes = getPathNodesFromURL(req.url);
