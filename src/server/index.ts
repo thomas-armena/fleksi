@@ -25,7 +25,6 @@ const startServer = () => {
             res.set('Content-Type', 'application/json');
             res.send(thing);
         } else if (typeof thing === 'object' && (thing as ThingObject)._kind === KIND.FILE) {
-        
             res.set('Content-Type', 'image/png');
             database.getFileWriteStream(req.url.slice(1)).pipe(res);
         } else {

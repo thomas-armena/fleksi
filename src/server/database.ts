@@ -3,7 +3,6 @@ import FileSystem from './filesystem';
 import { Thing, ThingObject, PathNodes } from '../utils/types';
 import { getPathNodesFromURL } from '../utils/path';
 import { KIND } from '../utils/kinds';
-import fs, { read } from 'fs';
 
 const DEFAULT_URL = 'mongodb://localhost:27017';
 const DB_NAME = 'fleksi';
