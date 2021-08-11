@@ -1,1 +1,0 @@
-{"version":3,"file":"store.js","sourceRoot":"","sources":["../../../src/renderer/state/store.ts"],"names":[],"mappings":";;;;;;AAAA,8CAAkD;AAClD,kEAA4C;AAE/B,QAAA,KAAK,GAAG,wBAAc,CAAC;IAClC,OAAO,EAAE;QACL,OAAO,EAAE,sBAAc;KAC1B;CACF,CAAC,CAAA"}

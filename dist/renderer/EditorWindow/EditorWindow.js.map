@@ -1,1 +1,0 @@
-{"version":3,"file":"EditorWindow.js","sourceRoot":"","sources":["../../../src/renderer/EditorWindow/EditorWindow.tsx"],"names":[],"mappings":";;;;;AAAA,kDAA0B;AAE1B,0EAAkD;AAClD,+BAA6B;AAM7B,MAAM,YAAY,GAAG,CAAC,EAAE,MAAM,EAAqB,EAAe,EAAE;IAChE,OAAO,CACH,uCAAK,SAAS,EAAC,eAAe;QAC1B,8BAAC,oBAAU,IAAC,MAAM,EAAE,MAAM,GAAI,CAC5B,CACT,CAAA;AACL,CAAC,CAAA;AAED,kBAAe,YAAY,CAAC"}
