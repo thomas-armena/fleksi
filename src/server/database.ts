@@ -24,7 +24,6 @@ class Database {
         this.bucket.drop();
         const fileSystem = new FileSystem();
         const initialRoot = fileSystem.getRoot();
-        console.log(initialRoot);
         const result = await this._getRootCollection().updateOne(
             { _isRoot: true },
             { $set: initialRoot },

@@ -42,7 +42,7 @@ class FileSystem {
 
     _getThingObjectFromDir(dir: string): ThingObject | null {
         if (!fs.lstatSync(dir).isDirectory()) return null;
-        let thingFromDir: ThingObject = {};
+        let thingFromDir: ThingObject = {_kind: 'none'};
         const metaPath = path.join(dir, 'meta.json');
         if (fs.existsSync(metaPath)) {
             const meta = this._readJson(metaPath);

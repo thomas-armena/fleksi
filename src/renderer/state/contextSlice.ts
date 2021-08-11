@@ -17,7 +17,7 @@ export interface ContextState {
 }
 
 const initialState: ContextState = {
-    rootThing: {},
+    rootThing: {_kind: 'none'},
     authorMode: false,
     path: [],
     editorWindowOpen: false,

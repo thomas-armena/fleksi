@@ -1,6 +1,6 @@
 
 export interface ThingObject {
-    _kind?: string,
+    _kind: string,
     _arguments?: ThingObject,
     _children?: ThingObject[],
     _isRoot?: boolean,
