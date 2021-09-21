@@ -101,7 +101,7 @@
     "lint": "eslint . --ext .ts",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node .",
+    "start": "node dist/server/index.js",
     "test": "jest",
     "coverage": "jest --coverage"
   },
