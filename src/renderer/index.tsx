@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ThingApp from './components/ThingApp/ThingApp';
 import { ThingAppContext } from '../utils/types';
 import { store } from './state/store';
@@ -16,14 +15,4 @@ const renderNodeToString = (thingAppContext: ThingAppContext): string => {
     );
 }
 
-const renderNodeToDOM = (thingAppContext: ThingAppContext): void => {
-    const domContainer = document.querySelector('#root');
-    ReactDOM.render(
-        <Provider store={store}>
-            <ThingApp thingAppContext={thingAppContext}/>
-        </Provider>, 
-        domContainer
-    );
-};
-
-export { renderNodeToDOM, renderNodeToString };
+export { renderNodeToString };

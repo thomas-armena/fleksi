@@ -1,8 +1,10 @@
 const path = require('path');
 
+//const componentLibIndex = path.resolve(__dirname, 'example', 'components', 'index.ts');
 const entryIndex = path.resolve(__dirname, 'src', 'server', 'index.ts');
 const entryDir = path.resolve(__dirname, 'src');
 const outDir = path.resolve(__dirname, 'build-server');
+
 
 const babelRule = {
     test: /\.jsx?$/,
@@ -42,7 +44,7 @@ module.exports = {
     entry: ['@babel/polyfill', entryIndex],
     output: {
         path: outDir,
-        filename: 'components.js',
+        filename: 'server.js',
     },
     context: entryDir,
     module: {

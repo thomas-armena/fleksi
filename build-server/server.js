@@ -64348,8 +64348,6 @@ var Database = /** @class */ (function () {
 var body_parser = __webpack_require__(68400);
 // EXTERNAL MODULE: ../node_modules/react/index.js
 var react = __webpack_require__(27378);
-// EXTERNAL MODULE: ../node_modules/react-dom/index.js
-var react_dom = __webpack_require__(31542);
 // EXTERNAL MODULE: ../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
 var injectStylesIntoStyleTag = __webpack_require__(1892);
 var injectStylesIntoStyleTag_default = /*#__PURE__*/__webpack_require__.n(injectStylesIntoStyleTag);
@@ -64369,7 +64367,7 @@ var insertStyleElement_default = /*#__PURE__*/__webpack_require__.n(insertStyleE
 var styleTagTransform = __webpack_require__(54865);
 var styleTagTransform_default = /*#__PURE__*/__webpack_require__.n(styleTagTransform);
 // EXTERNAL MODULE: ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./renderer/components/ThingApp/ThingApp.scss
-var ThingApp_ThingApp = __webpack_require__(61244);
+var ThingApp = __webpack_require__(61244);
 ;// CONCATENATED MODULE: ./renderer/components/ThingApp/ThingApp.scss
 
       
@@ -64392,12 +64390,12 @@ options.setAttributes = (setAttributesWithoutAttributes_default());
 options.domAPI = (styleDomAPI_default());
 options.insertStyleElement = (insertStyleElement_default());
 
-var update = injectStylesIntoStyleTag_default()(ThingApp_ThingApp/* default */.Z, options);
+var update = injectStylesIntoStyleTag_default()(ThingApp/* default */.Z, options);
 
 
 
 
-       /* harmony default export */ const components_ThingApp_ThingApp = (ThingApp_ThingApp/* default */.Z && ThingApp_ThingApp/* default.locals */.Z.locals ? ThingApp_ThingApp/* default.locals */.Z.locals : undefined);
+       /* harmony default export */ const ThingApp_ThingApp = (ThingApp/* default */.Z && ThingApp/* default.locals */.Z.locals ? ThingApp/* default.locals */.Z.locals : undefined);
 
 // EXTERNAL MODULE: ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./renderer/components/ThingContainer/ThingContainer.scss
 var ThingContainer = __webpack_require__(28157);
@@ -64618,7 +64616,7 @@ var useIsomorphicLayoutEffect_useIsomorphicLayoutEffect = typeof window !== 'und
 
 
 
-function Provider_Provider(_ref) {
+function Provider(_ref) {
   var store = _ref.store,
       context = _ref.context,
       children = _ref.children;
@@ -64654,7 +64652,7 @@ function Provider_Provider(_ref) {
 
 if (false) {}
 
-/* harmony default export */ const components_Provider = (Provider_Provider);
+/* harmony default export */ const components_Provider = (Provider);
 // EXTERNAL MODULE: ../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js
 var hoist_non_react_statics_cjs = __webpack_require__(55839);
 // EXTERNAL MODULE: ../node_modules/react-redux/node_modules/react-is/index.js
@@ -65560,6 +65558,8 @@ var useSelector = /*#__PURE__*/createSelectorHook();
 
 
 
+// EXTERNAL MODULE: ../node_modules/react-dom/index.js
+var react_dom = __webpack_require__(31542);
 ;// CONCATENATED MODULE: ../node_modules/react-redux/es/utils/reactBatchedUpdates.js
 /* eslint-disable import/no-unresolved */
 
@@ -68215,12 +68215,12 @@ var ThingApp_ThingApp_ThingApp = function (_a) {
         react.createElement("div", { className: "content" },
             react.createElement(components_ThingContainer_ThingContainer, { path: path }))));
 };
-/* harmony default export */ const renderer_components_ThingApp_ThingApp = (ThingApp_ThingApp_ThingApp);
+/* harmony default export */ const components_ThingApp_ThingApp = (ThingApp_ThingApp_ThingApp);
 
 ;// CONCATENATED MODULE: ./renderer/state/store.ts
 
 
-var store_store = configureStore({
+var store = configureStore({
     reducer: {
         context: state_contextSlice
     },
@@ -68235,16 +68235,10 @@ var server = __webpack_require__(50572);
 
 
 
-
 var renderNodeToString = function (thingAppContext) {
     console.log(renderer_componentlib);
-    return server.renderToString(react.createElement(components_Provider, { store: store_store },
-        react.createElement(renderer_components_ThingApp_ThingApp, { thingAppContext: thingAppContext })));
-};
-var renderNodeToDOM = function (thingAppContext) {
-    var domContainer = document.querySelector('#root');
-    ReactDOM.render(React.createElement(Provider, { store: store },
-        React.createElement(ThingApp, { thingAppContext: thingAppContext })), domContainer);
+    return server.renderToString(react.createElement(components_Provider, { store: store },
+        react.createElement(components_ThingApp_ThingApp, { thingAppContext: thingAppContext })));
 };
 
 
@@ -68356,7 +68350,7 @@ var startServer = function () {
     app.listen(3000);
 };
 var start = function () { return server_awaiter(void 0, void 0, void 0, function () {
-    var rootThing, pathNodes, thingAppContext, html;
+    var rootThing, pathNodes, thingAppContext, x;
     return server_generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -68370,8 +68364,8 @@ var start = function () { return server_awaiter(void 0, void 0, void 0, function
                     authorMode: true,
                     path: pathNodes
                 };
-                html = renderNodeToString(thingAppContext);
-                console.log(html);
+                x = renderNodeToString(thingAppContext);
+                console.log(x);
                 return [2 /*return*/];
         }
     });

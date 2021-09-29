@@ -103,7 +103,7 @@
     "lint": "eslint . --ext .ts",
     "build": "webpack",
     "prestart": "npm run build",
-    "start": "node dist/src/server/index.js",
+    "start": "node build-server/server.js",
     "test": "jest",
     "coverage": "jest --coverage"
   },

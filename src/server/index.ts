@@ -71,8 +71,8 @@ const start = async () => {
         authorMode: true,
         path: pathNodes
     };
-    const html = renderNodeToString(thingAppContext);
-    console.log(html)
+    const x = renderNodeToString(thingAppContext);
+    console.log(x)
 }
 
 start().catch((err)=>console.log(err));
