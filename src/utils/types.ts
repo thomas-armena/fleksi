@@ -1,3 +1,4 @@
+import { ComponentLibrary } from "./componentLib";
 
 export interface ThingObject {
     _kind: string,
@@ -15,6 +16,7 @@ export interface ThingAppContext {
     rootThing: ThingObject,
     authorMode: boolean,
     path: string[],
+    componentLib: ComponentLibrary
 }
 
 export interface ThingComponent {

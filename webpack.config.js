@@ -1,6 +1,6 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-//const componentLibIndex = path.resolve(__dirname, 'example', 'components', 'index.ts');
 const entryIndex = path.resolve(__dirname, 'src', 'server', 'index.ts');
 const entryDir = path.resolve(__dirname, 'src');
 const outDir = path.resolve(__dirname, 'build-server');
@@ -22,15 +22,18 @@ const babelRule = {
 
 const cssRule = {
     test: /\.css$/i,
-    use: ["style-loader", "css-loader"],
+    use: [
+        MiniCssExtractPlugin.loader,
+        "css-loader"
+    ],
 };
 
 const scssRule = {
     test: /\.s[ac]ss$/i,
     use: [
-      "style-loader",
-      "css-loader",
-      "sass-loader",
+        MiniCssExtractPlugin.loader,
+        "css-loader",
+        "sass-loader",
     ],
 };
 
@@ -41,6 +44,7 @@ const tsRule = {
 };
 
 module.exports = {
+    mode: 'production',
     entry: ['@babel/polyfill', entryIndex],
     output: {
         path: outDir,
@@ -56,5 +60,8 @@ module.exports = {
     optimization: {
         minimize: false
     },
-    target: 'node'
+    target: 'node',
+    plugins: [
+        new MiniCssExtractPlugin(),
+    ],
 };

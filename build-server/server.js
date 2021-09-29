@@ -19717,196 +19717,6 @@ module.exports = __webpack_require__(60066);
 
 /***/ }),
 
-/***/ 51733:
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(54933);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(93476);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".editor-window{background-color:#000;color:#fff;z-index:1000;width:300px;height:100vh;padding:8px;overflow-x:scroll;overflow-y:scroll}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ 61244:
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(54933);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(93476);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, "body{padding:0;margin:0}.page-container{min-height:100vh;align-items:stretch;display:flex;flex-direction:row}.page-container .content{flex:1}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ 28157:
-/***/ ((module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(54933);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(93476);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-// Imports
-
-
-var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-// Module
-___CSS_LOADER_EXPORT___.push([module.id, ".highlight{cursor:pointer;filter:brightness(0.8);background-color:#d3d3d3}", ""]);
-// Exports
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
-
-
-/***/ }),
-
-/***/ 93476:
-/***/ ((module) => {
-
-"use strict";
-
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-*/
-module.exports = function (cssWithMappingToString) {
-  var list = []; // return the list of modules as css string
-
-  list.toString = function toString() {
-    return this.map(function (item) {
-      var content = "";
-      var needLayer = typeof item[5] !== "undefined";
-
-      if (item[4]) {
-        content += "@supports (".concat(item[4], ") {");
-      }
-
-      if (item[2]) {
-        content += "@media ".concat(item[2], " {");
-      }
-
-      if (needLayer) {
-        content += "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {");
-      }
-
-      content += cssWithMappingToString(item);
-
-      if (needLayer) {
-        content += "}";
-      }
-
-      if (item[2]) {
-        content += "}";
-      }
-
-      if (item[4]) {
-        content += "}";
-      }
-
-      return content;
-    }).join("");
-  }; // import a list of modules into the list
-
-
-  list.i = function i(modules, media, dedupe, supports, layer) {
-    if (typeof modules === "string") {
-      modules = [[null, modules, undefined]];
-    }
-
-    var alreadyImportedModules = {};
-
-    if (dedupe) {
-      for (var _i = 0; _i < this.length; _i++) {
-        var id = this[_i][0];
-
-        if (id != null) {
-          alreadyImportedModules[id] = true;
-        }
-      }
-    }
-
-    for (var _i2 = 0; _i2 < modules.length; _i2++) {
-      var item = [].concat(modules[_i2]);
-
-      if (dedupe && alreadyImportedModules[item[0]]) {
-        continue;
-      }
-
-      if (typeof layer !== "undefined") {
-        if (typeof item[5] === "undefined") {
-          item[5] = layer;
-        } else {
-          item[1] = "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {").concat(item[1], "}");
-          item[5] = layer;
-        }
-      }
-
-      if (media) {
-        if (!item[2]) {
-          item[2] = media;
-        } else {
-          item[1] = "@media ".concat(item[2], " {").concat(item[1], "}");
-          item[2] = media;
-        }
-      }
-
-      if (supports) {
-        if (!item[4]) {
-          item[4] = "".concat(supports);
-        } else {
-          item[1] = "@supports (".concat(item[4], ") {").concat(item[1], "}");
-          item[4] = supports;
-        }
-      }
-
-      list.push(item);
-    }
-  };
-
-  return list;
-};
-
-/***/ }),
-
-/***/ 54933:
-/***/ ((module) => {
-
-"use strict";
-
-
-module.exports = function (i) {
-  return i[1];
-};
-
-/***/ }),
-
 /***/ 15862:
 /***/ ((module) => {
 
@@ -22440,7 +22250,7 @@ function stattag (stat) {
 
 
 
-/* unused reexport */ __webpack_require__(7781);
+module.exports = __webpack_require__(7781);
 
 
 /***/ }),
@@ -61819,300 +61629,6 @@ function status (code) {
 
 /***/ }),
 
-/***/ 1892:
-/***/ ((module) => {
-
-"use strict";
-
-
-var stylesInDOM = [];
-
-function getIndexByIdentifier(identifier) {
-  var result = -1;
-
-  for (var i = 0; i < stylesInDOM.length; i++) {
-    if (stylesInDOM[i].identifier === identifier) {
-      result = i;
-      break;
-    }
-  }
-
-  return result;
-}
-
-function modulesToDom(list, options) {
-  var idCountMap = {};
-  var identifiers = [];
-
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i];
-    var id = options.base ? item[0] + options.base : item[0];
-    var count = idCountMap[id] || 0;
-    var identifier = "".concat(id, " ").concat(count);
-    idCountMap[id] = count + 1;
-    var indexByIdentifier = getIndexByIdentifier(identifier);
-    var obj = {
-      css: item[1],
-      media: item[2],
-      sourceMap: item[3],
-      supports: item[4],
-      layer: item[5]
-    };
-
-    if (indexByIdentifier !== -1) {
-      stylesInDOM[indexByIdentifier].references++;
-      stylesInDOM[indexByIdentifier].updater(obj);
-    } else {
-      var updater = addElementStyle(obj, options);
-      options.byIndex = i;
-      stylesInDOM.splice(i, 0, {
-        identifier: identifier,
-        updater: updater,
-        references: 1
-      });
-    }
-
-    identifiers.push(identifier);
-  }
-
-  return identifiers;
-}
-
-function addElementStyle(obj, options) {
-  var api = options.domAPI(options);
-  api.update(obj);
-
-  var updater = function updater(newObj) {
-    if (newObj) {
-      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap && newObj.supports === obj.supports && newObj.layer === obj.layer) {
-        return;
-      }
-
-      api.update(obj = newObj);
-    } else {
-      api.remove();
-    }
-  };
-
-  return updater;
-}
-
-module.exports = function (list, options) {
-  options = options || {};
-  list = list || [];
-  var lastIdentifiers = modulesToDom(list, options);
-  return function update(newList) {
-    newList = newList || [];
-
-    for (var i = 0; i < lastIdentifiers.length; i++) {
-      var identifier = lastIdentifiers[i];
-      var index = getIndexByIdentifier(identifier);
-      stylesInDOM[index].references--;
-    }
-
-    var newLastIdentifiers = modulesToDom(newList, options);
-
-    for (var _i = 0; _i < lastIdentifiers.length; _i++) {
-      var _identifier = lastIdentifiers[_i];
-
-      var _index = getIndexByIdentifier(_identifier);
-
-      if (stylesInDOM[_index].references === 0) {
-        stylesInDOM[_index].updater();
-
-        stylesInDOM.splice(_index, 1);
-      }
-    }
-
-    lastIdentifiers = newLastIdentifiers;
-  };
-};
-
-/***/ }),
-
-/***/ 38311:
-/***/ ((module) => {
-
-"use strict";
-
-
-var memo = {};
-/* istanbul ignore next  */
-
-function getTarget(target) {
-  if (typeof memo[target] === "undefined") {
-    var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
-
-    if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
-      try {
-        // This will throw an exception if access to iframe is blocked
-        // due to cross-origin restrictions
-        styleTarget = styleTarget.contentDocument.head;
-      } catch (e) {
-        // istanbul ignore next
-        styleTarget = null;
-      }
-    }
-
-    memo[target] = styleTarget;
-  }
-
-  return memo[target];
-}
-/* istanbul ignore next  */
-
-
-function insertBySelector(insert, style) {
-  var target = getTarget(insert);
-
-  if (!target) {
-    throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
-  }
-
-  target.appendChild(style);
-}
-
-module.exports = insertBySelector;
-
-/***/ }),
-
-/***/ 38060:
-/***/ ((module) => {
-
-"use strict";
-
-
-/* istanbul ignore next  */
-function insertStyleElement(options) {
-  var element = document.createElement("style");
-  options.setAttributes(element, options.attributes);
-  options.insert(element, options.options);
-  return element;
-}
-
-module.exports = insertStyleElement;
-
-/***/ }),
-
-/***/ 58192:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-
-/* istanbul ignore next  */
-function setAttributesWithoutAttributes(styleElement) {
-  var nonce =  true ? __webpack_require__.nc : 0;
-
-  if (nonce) {
-    styleElement.setAttribute("nonce", nonce);
-  }
-}
-
-module.exports = setAttributesWithoutAttributes;
-
-/***/ }),
-
-/***/ 95760:
-/***/ ((module) => {
-
-"use strict";
-
-
-/* istanbul ignore next  */
-function apply(styleElement, options, obj) {
-  var css = "";
-
-  if (obj.supports) {
-    css += "@supports (".concat(obj.supports, ") {");
-  }
-
-  if (obj.media) {
-    css += "@media ".concat(obj.media, " {");
-  }
-
-  var needLayer = typeof obj.layer !== "undefined";
-
-  if (needLayer) {
-    css += "@layer".concat(obj.layer.length > 0 ? " ".concat(obj.layer) : "", " {");
-  }
-
-  css += obj.css;
-
-  if (needLayer) {
-    css += "}";
-  }
-
-  if (obj.media) {
-    css += "}";
-  }
-
-  if (obj.supports) {
-    css += "}";
-  }
-
-  var sourceMap = obj.sourceMap;
-
-  if (sourceMap && typeof btoa !== "undefined") {
-    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
-  } // For old IE
-
-  /* istanbul ignore if  */
-
-
-  options.styleTagTransform(css, styleElement, options.options);
-}
-
-function removeStyleElement(styleElement) {
-  // istanbul ignore if
-  if (styleElement.parentNode === null) {
-    return false;
-  }
-
-  styleElement.parentNode.removeChild(styleElement);
-}
-/* istanbul ignore next  */
-
-
-function domAPI(options) {
-  var styleElement = options.insertStyleElement(options);
-  return {
-    update: function update(obj) {
-      apply(styleElement, options, obj);
-    },
-    remove: function remove() {
-      removeStyleElement(styleElement);
-    }
-  };
-}
-
-module.exports = domAPI;
-
-/***/ }),
-
-/***/ 54865:
-/***/ ((module) => {
-
-"use strict";
-
-
-/* istanbul ignore next  */
-function styleTagTransform(css, styleElement) {
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css;
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild);
-    }
-
-    styleElement.appendChild(document.createTextNode(css));
-  }
-}
-
-module.exports = styleTagTransform;
-
-/***/ }),
-
 /***/ 47266:
 /***/ ((module) => {
 
@@ -63922,7 +63438,8 @@ _global["default"]._babelPolyfill = true;
 "use strict";
 
 // EXTERNAL MODULE: ../node_modules/express/index.js
-var node_modules_express = __webpack_require__(87141);
+var express = __webpack_require__(87141);
+var express_default = /*#__PURE__*/__webpack_require__.n(express);
 // EXTERNAL MODULE: ../node_modules/mongodb/lib/index.js
 var lib = __webpack_require__(22274);
 // EXTERNAL MODULE: external "path"
@@ -63931,15 +63448,15 @@ var external_path_default = /*#__PURE__*/__webpack_require__.n(external_path_);
 ;// CONCATENATED MODULE: ./utils/constants.ts
 
 var APP_DIR = external_path_default().resolve(__dirname);
-var constants_WORKING_DIR = external_path_default().resolve(process.cwd(), 'example');
-var constants_THING_APP_REGEX = '<thing-app>';
-var constants_PATH_TO_HTML_TEMPLATE = external_path_default().join(APP_DIR, '..', '..', 'src', 'server', 'template.html');
+var WORKING_DIR = external_path_default().resolve(process.cwd(), 'example');
+var THING_APP_REGEX = '<thing-app>';
+var PATH_TO_HTML_TEMPLATE = external_path_default().join(APP_DIR, '..', '..', 'src', 'server', 'template.html');
 
 // EXTERNAL MODULE: external "fs"
 var external_fs_ = __webpack_require__(57147);
 var external_fs_default = /*#__PURE__*/__webpack_require__.n(external_fs_);
 ;// CONCATENATED MODULE: ./utils/kinds.ts
-var kinds_KIND = {
+var KIND = {
     FILE: 'file'
 };
 var Kinds = /** @class */ (function () {
@@ -64003,7 +63520,7 @@ var getThingFromPath = function (rootThing, path) {
     }
     return currThing;
 };
-var path_getPathNodesFromURL = function (path) {
+var getPathNodesFromURL = function (path) {
     var nodes = path.split('/');
     return nodes
         .filter(function (node) { return node !== ''; }) // remove empty nodes
@@ -64027,7 +63544,7 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
-var DEFAULT_ROOT = external_path_default().join(constants_WORKING_DIR, 'initial');
+var DEFAULT_ROOT = external_path_default().join(WORKING_DIR, 'initial');
 var FILE_EXT_FILTER = ['png', 'jpg', 'txt', 'jpg', 'jpeg'];
 var FileSystem = /** @class */ (function () {
     function FileSystem(rootPath) {
@@ -64066,7 +63583,7 @@ var FileSystem = /** @class */ (function () {
             var childDir = external_path_default().join(dir, fileName);
             if (this._isFile(fileName)) {
                 var thingFile = {
-                    _kind: kinds_KIND.FILE,
+                    _kind: KIND.FILE,
                 };
                 var readStream = external_fs_default().createReadStream(childDir);
                 this.readStreams[this._getRelativeDir(childDir)] = readStream;
@@ -64094,8 +63611,8 @@ var FileSystem = /** @class */ (function () {
             return false;
     };
     FileSystem.prototype._getRelativeDir = function (dir) {
-        var rootPathNodes = path_getPathNodesFromURL(this.rootPath);
-        var dirPathNodes = path_getPathNodesFromURL(dir);
+        var rootPathNodes = getPathNodesFromURL(this.rootPath);
+        var dirPathNodes = getPathNodesFromURL(dir);
         while (rootPathNodes[0] === dirPathNodes[0]) {
             dirPathNodes.shift();
             rootPathNodes.shift();
@@ -64195,7 +63712,7 @@ var Database = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        pathNodes = path_getPathNodesFromURL(path);
+                        pathNodes = getPathNodesFromURL(path);
                         return [4 /*yield*/, this._getRoot()];
                     case 1:
                         currThing = _a.sent();
@@ -64222,7 +63739,7 @@ var Database = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.connect()];
                     case 1:
                         _b.sent();
-                        pathNodes = path_getPathNodesFromURL(path);
+                        pathNodes = getPathNodesFromURL(path);
                         key = pathNodes.join(".");
                         return [4 /*yield*/, this._getRootCollection().updateOne({ _isRoot: true }, { $set: (_a = {}, _a[key] = updatedThing, _a) }, { upsert: true })];
                     case 2:
@@ -64305,7 +63822,7 @@ var Database = /** @class */ (function () {
                         childThing = thingObject[key];
                         if (!(typeof childThing === 'object')) return [3 /*break*/, 7];
                         childThingObject = childThing;
-                        if (!(childThingObject._kind === kinds_KIND.FILE)) return [3 /*break*/, 5];
+                        if (!(childThingObject._kind === KIND.FILE)) return [3 /*break*/, 5];
                         fileDir = __spreadArray(__spreadArray([], path, true), [key], false).join('/');
                         _b.label = 2;
                     case 2:
@@ -64342,110 +63859,93 @@ var Database = /** @class */ (function () {
     };
     return Database;
 }());
-/* harmony default export */ const server_database = (new Database());
+/* harmony default export */ const database = (new Database());
 
 // EXTERNAL MODULE: ../node_modules/body-parser/index.js
 var body_parser = __webpack_require__(68400);
+var body_parser_default = /*#__PURE__*/__webpack_require__.n(body_parser);
 // EXTERNAL MODULE: ../node_modules/react/index.js
 var react = __webpack_require__(27378);
-// EXTERNAL MODULE: ../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
-var injectStylesIntoStyleTag = __webpack_require__(1892);
-var injectStylesIntoStyleTag_default = /*#__PURE__*/__webpack_require__.n(injectStylesIntoStyleTag);
-// EXTERNAL MODULE: ../node_modules/style-loader/dist/runtime/styleDomAPI.js
-var styleDomAPI = __webpack_require__(95760);
-var styleDomAPI_default = /*#__PURE__*/__webpack_require__.n(styleDomAPI);
-// EXTERNAL MODULE: ../node_modules/style-loader/dist/runtime/insertBySelector.js
-var insertBySelector = __webpack_require__(38311);
-var insertBySelector_default = /*#__PURE__*/__webpack_require__.n(insertBySelector);
-// EXTERNAL MODULE: ../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js
-var setAttributesWithoutAttributes = __webpack_require__(58192);
-var setAttributesWithoutAttributes_default = /*#__PURE__*/__webpack_require__.n(setAttributesWithoutAttributes);
-// EXTERNAL MODULE: ../node_modules/style-loader/dist/runtime/insertStyleElement.js
-var insertStyleElement = __webpack_require__(38060);
-var insertStyleElement_default = /*#__PURE__*/__webpack_require__.n(insertStyleElement);
-// EXTERNAL MODULE: ../node_modules/style-loader/dist/runtime/styleTagTransform.js
-var styleTagTransform = __webpack_require__(54865);
-var styleTagTransform_default = /*#__PURE__*/__webpack_require__.n(styleTagTransform);
-// EXTERNAL MODULE: ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./renderer/components/ThingApp/ThingApp.scss
-var ThingApp = __webpack_require__(61244);
-;// CONCATENATED MODULE: ./renderer/components/ThingApp/ThingApp.scss
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var options = {};
-
-options.styleTagTransform = (styleTagTransform_default());
-options.setAttributes = (setAttributesWithoutAttributes_default());
-
-      options.insert = insertBySelector_default().bind(null, "head");
-    
-options.domAPI = (styleDomAPI_default());
-options.insertStyleElement = (insertStyleElement_default());
-
-var update = injectStylesIntoStyleTag_default()(ThingApp/* default */.Z, options);
+;// CONCATENATED MODULE: ../example/components/Content.jsx
 
 
-
-
-       /* harmony default export */ const ThingApp_ThingApp = (ThingApp/* default */.Z && ThingApp/* default.locals */.Z.locals ? ThingApp/* default.locals */.Z.locals : undefined);
-
-// EXTERNAL MODULE: ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./renderer/components/ThingContainer/ThingContainer.scss
-var ThingContainer = __webpack_require__(28157);
-;// CONCATENATED MODULE: ./renderer/components/ThingContainer/ThingContainer.scss
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var ThingContainer_options = {};
-
-ThingContainer_options.styleTagTransform = (styleTagTransform_default());
-ThingContainer_options.setAttributes = (setAttributesWithoutAttributes_default());
-
-      ThingContainer_options.insert = insertBySelector_default().bind(null, "head");
-    
-ThingContainer_options.domAPI = (styleDomAPI_default());
-ThingContainer_options.insertStyleElement = (insertStyleElement_default());
-
-var ThingContainer_update = injectStylesIntoStyleTag_default()(ThingContainer/* default */.Z, ThingContainer_options);
-
-
-
-
-       /* harmony default export */ const ThingContainer_ThingContainer = (ThingContainer/* default */.Z && ThingContainer/* default.locals */.Z.locals ? ThingContainer/* default.locals */.Z.locals : undefined);
-
-;// CONCATENATED MODULE: ../example/components/HelloWorld.tsx
-
-var HelloWorld = function () {
-    return react.createElement("h1", null, "Hello World");
+var Content = function Content(_ref) {
+  var children = _ref.children;
+  return /*#__PURE__*/react.createElement("div", null, "Content", children);
 };
-/* harmony default export */ const components_HelloWorld = (HelloWorld);
 
+/* harmony default export */ const components_Content = (Content);
+;// CONCATENATED MODULE: ../example/components/Hero/Hero.jsx
+
+
+
+var Hero = function Hero(_ref) {
+  var title = _ref.title;
+  return /*#__PURE__*/react.createElement("h1", {
+    className: "hero"
+  }, title);
+};
+
+/* harmony default export */ const Hero_Hero = (Hero);
+;// CONCATENATED MODULE: ../example/components/Heading1.jsx
+
+
+var Heading1 = function Heading1(_ref) {
+  var text = _ref.text;
+  return /*#__PURE__*/react.createElement("h1", null, text);
+};
+
+/* harmony default export */ const components_Heading1 = (Heading1);
+;// CONCATENATED MODULE: ../example/components/Page.jsx
+
+
+var Page = function Page(_ref) {
+  var children = _ref.children;
+  return /*#__PURE__*/react.createElement("div", null, children);
+};
+
+/* harmony default export */ const components_Page = (Page);
+;// CONCATENATED MODULE: ../example/components/Text.jsx
+
+
+var Text = function Text(_ref) {
+  var text = _ref.text;
+  return /*#__PURE__*/react.createElement("p", null, text);
+};
+
+/* harmony default export */ const components_Text = (Text);
+;// CONCATENATED MODULE: ../example/components/Image.jsx
+
+
+var Image = function Image(_ref) {
+  var src = _ref.src;
+  return /*#__PURE__*/react.createElement("img", {
+    src: src
+  });
+};
+
+/* harmony default export */ const components_Image = (Image);
 ;// CONCATENATED MODULE: ../example/components/index.ts
 
+
+
+
+
+
+
 /* harmony default export */ const components = ({
-    'HelloWorld': components_HelloWorld
+    Content: components_Content,
+    Hero: Hero_Hero,
+    Heading1: components_Heading1,
+    Page: components_Page,
+    Text: components_Text,
+    Image: components_Image
 });
 
-;// CONCATENATED MODULE: ./renderer/componentlib.ts
+;// CONCATENATED MODULE: ./utils/componentLib.ts
 
-var componentlib = components;
-console.log(componentlib);
-/* harmony default export */ const renderer_componentlib = (componentlib);
+var componentLib = components;
+/* harmony default export */ const utils_componentLib = (componentLib);
 
 // EXTERNAL MODULE: ../node_modules/prop-types/index.js
 var prop_types = __webpack_require__(23615);
@@ -67985,7 +67485,7 @@ var ThingContainer_spreadArray = (undefined && undefined.__spreadArray) || funct
 
 
 
-var ThingContainer_ThingContainer_ThingContainer = function (_a) {
+var ThingContainer = function (_a) {
     var path = _a.path;
     var dispatch = useDispatch();
     var _b = (0,react.useState)(false), hover = _b[0], setHover = _b[1];
@@ -67999,11 +67499,11 @@ var ThingContainer_ThingContainer_ThingContainer = function (_a) {
         for (var _i = 0, _a = Object.keys(thingObject._children); _i < _a.length; _i++) {
             var child = _a[_i];
             var childPath = ThingContainer_spreadArray(ThingContainer_spreadArray([], path, true), ['_children', child], false);
-            childComponents.push(react.createElement(ThingContainer_ThingContainer_ThingContainer, { path: childPath }));
+            childComponents.push(react.createElement(ThingContainer, { path: childPath }));
         }
         return childComponents;
     };
-    var Component = renderer_componentlib[thing._kind];
+    var Component = utils_componentLib[thing._kind];
     if (!Component)
         return react.createElement("div", null, JSON.stringify(thing));
     var handleAuthorClick = function (event) {
@@ -68025,7 +67525,7 @@ var ThingContainer_ThingContainer_ThingContainer = function (_a) {
     return (react.createElement("div", { onClick: handleAuthorClick, className: hover ? 'highlight' : '', onMouseOver: handleMouseOver, onMouseOut: handleMouseOut },
         react.createElement(Component, ThingContainer_assign({}, thing._arguments, { thingComponent: thingComponent }), thing._children && renderChildren())));
 };
-/* harmony default export */ const components_ThingContainer_ThingContainer = (ThingContainer_ThingContainer_ThingContainer);
+/* harmony default export */ const ThingContainer_ThingContainer = (ThingContainer);
 
 ;// CONCATENATED MODULE: ./renderer/components/JsonEditor/JsonEditor.tsx
 var JsonEditor_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -68152,49 +67652,18 @@ var arrIsSubset = function (arr1, arr2) {
 };
 /* harmony default export */ const JsonEditor_JsonEditor = (JsonEditor);
 
-// EXTERNAL MODULE: ../node_modules/css-loader/dist/cjs.js!../node_modules/sass-loader/dist/cjs.js!./renderer/components/EditorWindow/EditorWindow.scss
-var EditorWindow = __webpack_require__(51733);
-;// CONCATENATED MODULE: ./renderer/components/EditorWindow/EditorWindow.scss
-
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
-var EditorWindow_options = {};
-
-EditorWindow_options.styleTagTransform = (styleTagTransform_default());
-EditorWindow_options.setAttributes = (setAttributesWithoutAttributes_default());
-
-      EditorWindow_options.insert = insertBySelector_default().bind(null, "head");
-    
-EditorWindow_options.domAPI = (styleDomAPI_default());
-EditorWindow_options.insertStyleElement = (insertStyleElement_default());
-
-var EditorWindow_update = injectStylesIntoStyleTag_default()(EditorWindow/* default */.Z, EditorWindow_options);
-
-
-
-
-       /* harmony default export */ const EditorWindow_EditorWindow = (EditorWindow/* default */.Z && EditorWindow/* default.locals */.Z.locals ? EditorWindow/* default.locals */.Z.locals : undefined);
-
 ;// CONCATENATED MODULE: ./renderer/components/EditorWindow/EditorWindow.tsx
 
 
 
 
-var EditorWindow_EditorWindow_EditorWindow = function () {
+var EditorWindow = function () {
     var _a = useSelector(function (state) { return state.context; }), path = _a.path, synced = _a.synced;
     return (react.createElement("div", { className: "editor-window" },
         react.createElement("div", null, synced ? 'Up to date' : 'Saving...'),
         react.createElement(JsonEditor_JsonEditor, { path: path })));
 };
-/* harmony default export */ const components_EditorWindow_EditorWindow = (EditorWindow_EditorWindow_EditorWindow);
+/* harmony default export */ const EditorWindow_EditorWindow = (EditorWindow);
 
 ;// CONCATENATED MODULE: ./renderer/components/ThingApp/ThingApp.tsx
 
@@ -68203,7 +67672,7 @@ var EditorWindow_EditorWindow_EditorWindow = function () {
 
 
 
-var ThingApp_ThingApp_ThingApp = function (_a) {
+var ThingApp = function (_a) {
     var thingAppContext = _a.thingAppContext;
     var dispatch = useDispatch();
     var _b = useSelector(function (state) { return state.context; }), authorMode = _b.authorMode, editorWindowOpen = _b.editorWindowOpen, path = _b.path;
@@ -68211,11 +67680,11 @@ var ThingApp_ThingApp_ThingApp = function (_a) {
         dispatch(init(thingAppContext));
     }, []);
     return (react.createElement("div", { className: "page-container" },
-        authorMode && editorWindowOpen && react.createElement(components_EditorWindow_EditorWindow, null),
+        authorMode && editorWindowOpen && react.createElement(EditorWindow_EditorWindow, null),
         react.createElement("div", { className: "content" },
-            react.createElement(components_ThingContainer_ThingContainer, { path: path }))));
+            react.createElement(ThingContainer_ThingContainer, { path: path }))));
 };
-/* harmony default export */ const components_ThingApp_ThingApp = (ThingApp_ThingApp_ThingApp);
+/* harmony default export */ const ThingApp_ThingApp = (ThingApp);
 
 ;// CONCATENATED MODULE: ./renderer/state/store.ts
 
@@ -68234,11 +67703,9 @@ var server = __webpack_require__(50572);
 
 
 
-
 var renderNodeToString = function (thingAppContext) {
-    console.log(renderer_componentlib);
     return server.renderToString(react.createElement(components_Provider, { store: store },
-        react.createElement(components_ThingApp_ThingApp, { thingAppContext: thingAppContext })));
+        react.createElement(ThingApp_ThingApp, { thingAppContext: thingAppContext })));
 };
 
 
@@ -68288,10 +67755,11 @@ var server_generator = (undefined && undefined.__generator) || function (thisArg
 
 
 
+
 var startServer = function () {
-    var app = express();
-    app.use(bodyParser.json());
-    app.use(express.static(path.join(WORKING_DIR, 'build')));
+    var app = express_default()();
+    app.use(body_parser_default().json());
+    app.use(express_default()["static"](external_path_default().join(WORKING_DIR, 'build')));
     app.get('*', function (req, res) { return server_awaiter(void 0, void 0, void 0, function () {
         var authorMode, isRaw, thing, rootThing, pathNodes, thingAppContext, htmlResponse;
         return server_generator(this, function (_a) {
@@ -68318,7 +67786,8 @@ var startServer = function () {
                     thingAppContext = {
                         rootThing: rootThing,
                         authorMode: authorMode,
-                        path: pathNodes
+                        path: pathNodes,
+                        componentLib: utils_componentLib
                     };
                     htmlResponse = generateHTML(thingAppContext);
                     res.set('Content-Type', 'text/html');
@@ -68343,31 +67812,21 @@ var startServer = function () {
         });
     }); });
     var generateHTML = function (thingAppContext) {
-        var templateHTML = fs.readFileSync(PATH_TO_HTML_TEMPLATE).toString();
-        templateHTML = templateHTML.replace(THING_APP_REGEX, JSON.stringify(thingAppContext));
+        var templateHTML = external_fs_default().readFileSync(PATH_TO_HTML_TEMPLATE).toString();
+        templateHTML = templateHTML.replace(THING_APP_REGEX, renderNodeToString(thingAppContext));
         return templateHTML;
     };
     app.listen(3000);
 };
 var start = function () { return server_awaiter(void 0, void 0, void 0, function () {
-    var rootThing, pathNodes, thingAppContext, x;
     return server_generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                console.log("server started");
-                return [4 /*yield*/, server_database.getThing('/')];
-            case 1:
-                rootThing = _a.sent();
-                pathNodes = path_getPathNodesFromURL("/");
-                thingAppContext = {
-                    rootThing: rootThing,
-                    authorMode: true,
-                    path: pathNodes
-                };
-                x = renderNodeToString(thingAppContext);
-                console.log(x);
-                return [2 /*return*/];
-        }
+        console.log(utils_componentLib);
+        //await database.populateWithInitialData();
+        //await buildComponentLibrary()
+        //await buildRendererLibary()
+        startServer();
+        console.log("server started");
+        return [2 /*return*/];
     });
 }); };
 start().catch(function (err) { return console.log(err); });

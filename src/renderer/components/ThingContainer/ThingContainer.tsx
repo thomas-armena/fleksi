@@ -2,7 +2,7 @@ import React, { useState, MouseEvent } from 'react';
 import './ThingContainer.scss';
 import { PathNodes, ThingComponent, ThingObject } from '../../../utils/types';
 import { getThingFromPath } from '../../../utils/path';
-import componentlib from '../../componentlib';
+import componentLib from '../../../utils/componentLib';
 import { RootState } from '../../state/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { startEdittingThing } from '../../state/contextSlice';
@@ -28,7 +28,7 @@ const ThingContainer = ({ path }: ThingProps): JSX.Element => {
         }
         return childComponents;
     }
-    const Component = componentlib[(thing as ThingObject)._kind];
+    const Component = componentLib[(thing as ThingObject)._kind];
     if (!Component) return <div>{JSON.stringify(thing)}</div>;
 
     const handleAuthorClick = (event: MouseEvent): void => {
