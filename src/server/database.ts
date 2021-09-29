@@ -24,12 +24,12 @@ class Database {
         this.bucket.drop();
         const fileSystem = new FileSystem();
         const initialRoot = fileSystem.getRoot();
-        const result = await this._getRootCollection().updateOne(
+        const collection = this._getRootCollection()
+        const result = await collection.updateOne(
             { _isRoot: true },
             { $set: initialRoot },
             { upsert: true }
         );
-        await this._uploadFiles(initialRoot, fileSystem, []);
         await this.close();
         return result;
     }

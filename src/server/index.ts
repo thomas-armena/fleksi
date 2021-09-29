@@ -8,6 +8,7 @@ import { Thing, ThingAppContext, ThingObject } from '../utils/types';
 import { PATH_TO_HTML_TEMPLATE, THING_APP_REGEX, WORKING_DIR } from '../utils/constants';
 import { getPathNodesFromURL } from '../utils/path';
 import { KIND } from '../utils/kinds';
+import { renderNodeToString } from '../renderer';
 
 interface ThingPostBody { set: Thing }
 
@@ -57,10 +58,21 @@ const startServer = () => {
 }
 
 const start = async () => {
-    await database.populateWithInitialData();
-    await buildComponentLibrary()
-    await buildRendererLibary()
-    startServer();
+    console.log("server started")
+    // await database.populateWithInitialData();
+    // await buildComponentLibrary()
+    // await buildRendererLibary()
+    // startServer();
+
+    const rootThing = await database.getThing('/') as ThingObject;
+    const pathNodes = getPathNodesFromURL("/");
+    const thingAppContext: ThingAppContext = {
+        rootThing,
+        authorMode: true,
+        path: pathNodes
+    };
+    const html = renderNodeToString(thingAppContext);
+    console.log(html)
 }
 
 start().catch((err)=>console.log(err));
