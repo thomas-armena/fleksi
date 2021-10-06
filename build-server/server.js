@@ -63673,7 +63673,7 @@ var __spreadArray = (undefined && undefined.__spreadArray) || function (to, from
 
 
 
-var DEFAULT_URL = 'mongodb://localhost:27017';
+var DEFAULT_URL = 'mongodb://127.0.0.1:27017/?directConnection=true';
 var DB_NAME = 'fleksi';
 var DB_WEB_COLLECTION = 'root';
 var Database = /** @class */ (function () {
@@ -63685,22 +63685,33 @@ var Database = /** @class */ (function () {
     }
     Database.prototype.populateWithInitialData = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var fileSystem, initialRoot, collection, result;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            var _a, fileSystem, initialRoot, collection, result;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0: return [4 /*yield*/, this.connect()];
                     case 1:
-                        _a.sent();
-                        this.bucket.drop();
+                        _b.sent();
+                        _b.label = 2;
+                    case 2:
+                        _b.trys.push([2, 4, , 5]);
+                        return [4 /*yield*/, this.bucket.drop()];
+                    case 3:
+                        _b.sent();
+                        return [3 /*break*/, 5];
+                    case 4:
+                        _a = _b.sent();
+                        console.log("no bucket to drop");
+                        return [3 /*break*/, 5];
+                    case 5:
                         fileSystem = new filesystem();
                         initialRoot = fileSystem.getRoot();
                         collection = this._getRootCollection();
                         return [4 /*yield*/, collection.updateOne({ _isRoot: true }, { $set: initialRoot }, { upsert: true })];
-                    case 2:
-                        result = _a.sent();
+                    case 6:
+                        result = _b.sent();
                         return [4 /*yield*/, this.close()];
-                    case 3:
-                        _a.sent();
+                    case 7:
+                        _b.sent();
                         return [2 /*return*/, result];
                 }
             });
@@ -63761,12 +63772,20 @@ var Database = /** @class */ (function () {
     };
     Database.prototype.connect = function () {
         return __awaiter(this, void 0, void 0, function () {
+            var err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.connect()];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.client.connect()];
                     case 1:
                         _a.sent();
-                        return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_1 = _a.sent();
+                        console.error(err_1);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
@@ -67820,13 +67839,16 @@ var startServer = function () {
 };
 var start = function () { return server_awaiter(void 0, void 0, void 0, function () {
     return server_generator(this, function (_a) {
-        console.log(utils_componentLib);
-        //await database.populateWithInitialData();
-        //await buildComponentLibrary()
-        //await buildRendererLibary()
-        startServer();
-        console.log("server started");
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, database.populateWithInitialData()];
+            case 1:
+                _a.sent();
+                //await buildComponentLibrary()
+                //await buildRendererLibary()
+                startServer();
+                console.log("server started");
+                return [2 /*return*/];
+        }
     });
 }); };
 start().catch(function (err) { return console.log(err); });

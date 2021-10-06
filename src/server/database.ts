@@ -4,7 +4,7 @@ import { Thing, ThingObject, PathNodes } from '../utils/types';
 import { getPathNodesFromURL } from '../utils/path';
 import { KIND } from '../utils/kinds';
 
-const DEFAULT_URL = 'mongodb://localhost:27017';
+const DEFAULT_URL = 'mongodb://127.0.0.1:27017/?directConnection=true';
 const DB_NAME = 'fleksi';
 const DB_WEB_COLLECTION = 'root';
 
@@ -21,7 +21,11 @@ class Database {
 
     async populateWithInitialData(): Promise<UpdateResult | Document> {
         await this.connect();
-        this.bucket.drop();
+        try {
+            await this.bucket.drop();
+        } catch {
+            console.log("no bucket to drop")
+        }
         const fileSystem = new FileSystem();
         const initialRoot = fileSystem.getRoot();
         const collection = this._getRootCollection()
@@ -67,7 +71,11 @@ class Database {
     }
 
     async connect(): Promise<void> {
-        await this.client.connect();
+        try {
+            await this.client.connect();
+        } catch(err) {
+            console.error(err)
+        }
     }
 
     async close(): Promise<void>  {
