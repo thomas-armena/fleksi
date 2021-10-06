@@ -12,6 +12,8 @@ type ThingAppProps = {
 }
 
 const ThingApp = ({ thingAppContext }: ThingAppProps): JSX.Element => {
+
+    console.log('rendering thing app', thingAppContext);
     const dispatch = useDispatch();
     const { authorMode, editorWindowOpen, path } = useSelector((state: RootState) => state.context);
 

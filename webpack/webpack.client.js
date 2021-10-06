@@ -1,11 +1,9 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const entryIndex = path.resolve(__dirname, 'src', 'server', 'index.ts');
-const entryDir = path.resolve(__dirname, 'src');
-const outDir = path.resolve(__dirname, 'build-server');
-
-const clientPath = path.resolve(__dirname, 'src', 'renderer', 'client.tsx');
+const entryIndex = path.resolve(__dirname, '..', 'src', 'renderer', 'client.tsx');
+const entryDir = path.resolve(__dirname, '..', 'src');
+const outDir = path.resolve(__dirname, '..', 'build-client');
 
 const babelRule = {
     test: /\.jsx?$/,
@@ -24,7 +22,7 @@ const babelRule = {
 const cssRule = {
     test: /\.css$/i,
     use: [
-        MiniCssExtractPlugin.loader,
+        'style-loader',
         "css-loader"
     ],
 };
@@ -32,7 +30,7 @@ const cssRule = {
 const scssRule = {
     test: /\.s[ac]ss$/i,
     use: [
-        MiniCssExtractPlugin.loader,
+        'style-loader',
         "css-loader",
         "sass-loader",
     ],
@@ -49,14 +47,14 @@ module.exports = {
     entry: ['@babel/polyfill', entryIndex],
     output: {
         path: outDir,
-        filename: 'server.js',
+        filename: 'renderer.js',
     },
     context: entryDir,
     module: {
         rules: [babelRule, cssRule, scssRule, tsRule],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: ['.tsx', '.ts', '.js', 'jsx'],
     },
     optimization: {
         minimize: false

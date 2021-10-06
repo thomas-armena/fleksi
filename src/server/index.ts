@@ -1,11 +1,10 @@
 import express from 'express';
-import { buildComponentLibrary, buildRendererLibary } from './build';
 import database from './database';
 import path from 'path';
 import fs from 'fs';
 import bodyParser from 'body-parser';
 import { Thing, ThingAppContext, ThingObject } from '../utils/types';
-import { PATH_TO_HTML_TEMPLATE, THING_APP_REGEX, WORKING_DIR } from '../utils/constants';
+import { APP_DIR, PATH_TO_HTML_TEMPLATE, THING_APP_CONTEXT_REGEX, THING_APP_REGEX, WORKING_DIR } from '../utils/constants';
 import { getPathNodesFromURL } from '../utils/path';
 import { KIND } from '../utils/kinds';
 import { renderNodeToString } from '../renderer';
@@ -15,9 +14,10 @@ interface ThingPostBody { set: Thing }
 
 const startServer = () => {
     const app = express();
+    const clientFolder = path.join(APP_DIR, '..', 'build-client');
+    console.log('serving folder', clientFolder);
 
     app.use(bodyParser.json());
-    app.use(express.static(path.join(WORKING_DIR,'build')));
 
     app.get('*', async (req, res) => {
         const authorMode = req.query.author === 'true';
@@ -30,7 +30,8 @@ const startServer = () => {
             res.set('Content-Type', 'image/png');
             database.getFileWriteStream(req.url.slice(1)).pipe(res);
         } else {
-            const rootThing = await database.getThing('/') as ThingObject;
+            const rootThing = await database.getThing(req.url) as ThingObject;
+            console.log(rootThing);
             const pathNodes = getPathNodesFromURL(req.url);
             const thingAppContext: ThingAppContext = {
                 rootThing,
@@ -44,6 +45,8 @@ const startServer = () => {
         }
     });
 
+    app.use(express.static(clientFolder));
+
     app.post('*', async (req, res) => {
         const thingPostBody = req.body as ThingPostBody;
         const result = await database.setThing(req.url, thingPostBody.set);
@@ -53,6 +56,8 @@ const startServer = () => {
     const generateHTML = (thingAppContext: ThingAppContext): string => {
         let templateHTML = fs.readFileSync(PATH_TO_HTML_TEMPLATE).toString();
         templateHTML = templateHTML.replace(THING_APP_REGEX, renderNodeToString(thingAppContext));
+        templateHTML = templateHTML.replace(THING_APP_CONTEXT_REGEX, JSON.stringify(thingAppContext));
+        console.log(templateHTML)
         return templateHTML;
     }
 
@@ -61,8 +66,6 @@ const startServer = () => {
 
 const start = async () => {
     await database.populateWithInitialData();
-    //await buildComponentLibrary()
-    //await buildRendererLibary()
     startServer();
     console.log("server started")
 }

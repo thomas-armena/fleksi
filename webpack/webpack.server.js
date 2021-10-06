@@ -1,11 +1,9 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const entryIndex = path.resolve(__dirname, 'src', 'server', 'index.ts');
-const entryDir = path.resolve(__dirname, 'src');
-const outDir = path.resolve(__dirname, 'build-server');
-
-const clientPath = path.resolve(__dirname, 'src', 'renderer', 'client.tsx');
+const entryIndex = path.resolve(__dirname, '..', 'src', 'server', 'index.ts');
+const entryDir = path.resolve(__dirname, '..', 'src');
+const outDir = path.resolve(__dirname, '..', 'build-server');
 
 const babelRule = {
     test: /\.jsx?$/,
@@ -56,7 +54,7 @@ module.exports = {
         rules: [babelRule, cssRule, scssRule, tsRule],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: ['.tsx', '.ts', '.js', 'jsx'],
     },
     optimization: {
         minimize: false

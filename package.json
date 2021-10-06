@@ -103,7 +103,7 @@
   },
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "build": "webpack",
+    "build": "webpack --config webpack/webpack.server.js && webpack --config webpack/webpack.client.js",
     "prestart": "npm run build",
     "start": "node build-server/server.js",
     "test": "jest",
