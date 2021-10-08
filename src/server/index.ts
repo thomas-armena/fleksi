@@ -18,6 +18,7 @@ const startServer = () => {
     console.log('serving folder', clientFolder);
 
     app.use(bodyParser.json());
+    app.use(express.static(clientFolder));
 
     app.get('*', async (req, res) => {
         const authorMode = req.query.author === 'true';
@@ -30,8 +31,7 @@ const startServer = () => {
             res.set('Content-Type', 'image/png');
             database.getFileWriteStream(req.url.slice(1)).pipe(res);
         } else {
-            const rootThing = await database.getThing(req.url) as ThingObject;
-            console.log(rootThing);
+            const rootThing = await database.getThing("/") as ThingObject;
             const pathNodes = getPathNodesFromURL(req.url);
             const thingAppContext: ThingAppContext = {
                 rootThing,
@@ -44,8 +44,6 @@ const startServer = () => {
             res.send(Buffer.from(htmlResponse));
         }
     });
-
-    app.use(express.static(clientFolder));
 
     app.post('*', async (req, res) => {
         const thingPostBody = req.body as ThingPostBody;

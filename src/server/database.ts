@@ -1,4 +1,4 @@
-import { MongoClient, Collection, UpdateResult, Document, Db, GridFSBucket, GridFSBucketReadStream } from 'mongodb';
+import { MongoClient, Collection, UpdateResult, Document, Db, GridFSBucket, GridFSBucketReadStream, ServerClosedEvent } from 'mongodb';
 import FileSystem from './filesystem';
 import { Thing, ThingObject, PathNodes } from '../utils/types';
 import { getPathNodesFromURL } from '../utils/path';
@@ -28,6 +28,7 @@ class Database {
         }
         const fileSystem = new FileSystem();
         const initialRoot = fileSystem.getRoot();
+        await this._uploadFiles(initialRoot, fileSystem, []);
         const collection = this._getRootCollection()
         const result = await collection.updateOne(
             { _isRoot: true },

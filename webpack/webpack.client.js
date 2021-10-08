@@ -1,5 +1,4 @@
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const entryIndex = path.resolve(__dirname, '..', 'src', 'renderer', 'client.tsx');
 const entryDir = path.resolve(__dirname, '..', 'src');
@@ -59,8 +58,5 @@ module.exports = {
     optimization: {
         minimize: false
     },
-    target: 'node',
-    plugins: [
-        new MiniCssExtractPlugin(),
-    ],
+    target: 'node'
 };
