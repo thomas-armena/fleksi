@@ -55,7 +55,6 @@ const startServer = () => {
         let templateHTML = fs.readFileSync(PATH_TO_HTML_TEMPLATE).toString();
         templateHTML = templateHTML.replace(THING_APP_REGEX, renderNodeToString(thingAppContext));
         templateHTML = templateHTML.replace(THING_APP_CONTEXT_REGEX, JSON.stringify(thingAppContext));
-        console.log(templateHTML)
         return templateHTML;
     }
 
