@@ -7,6 +7,7 @@ export const getThingFromPath = (rootThing: Thing, path: PathNodes): Thing => {
         currThing = (currThing as ThingObject)[key] as Thing;
         if (!currThing) {
             console.error(`key doesn't exist: ${key}`);
+            return null;
         }
     }
     return currThing;

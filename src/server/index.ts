@@ -5,7 +5,7 @@ import fs from 'fs';
 import bodyParser from 'body-parser';
 import { Thing, ThingAppContext, ThingObject } from '../utils/types';
 import { APP_DIR, PATH_TO_HTML_TEMPLATE, THING_APP_CONTEXT_REGEX, THING_APP_REGEX, WORKING_DIR } from '../utils/constants';
-import { getPathNodesFromURL } from '../utils/path';
+import { getPathNodesFromURL, getThingFromPath } from '../utils/path';
 import { KIND } from '../utils/kinds';
 import { renderNodeToString } from '../renderer';
 import componentLib from '../utils/componentLib';
@@ -33,6 +33,7 @@ const startServer = () => {
         } else {
             const rootThing = await database.getThing("/") as ThingObject;
             const pathNodes = getPathNodesFromURL(req.url);
+            if (getThingFromPath(rootThing, pathNodes) == null) { return }
             const thingAppContext: ThingAppContext = {
                 rootThing,
                 authorMode,
@@ -55,6 +56,7 @@ const startServer = () => {
         let templateHTML = fs.readFileSync(PATH_TO_HTML_TEMPLATE).toString();
         templateHTML = templateHTML.replace(THING_APP_REGEX, renderNodeToString(thingAppContext));
         templateHTML = templateHTML.replace(THING_APP_CONTEXT_REGEX, JSON.stringify(thingAppContext));
+        console.log(templateHTML);
         return templateHTML;
     }
 

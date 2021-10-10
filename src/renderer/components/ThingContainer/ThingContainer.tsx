@@ -3,9 +3,9 @@ import './ThingContainer.scss';
 import { PathNodes, ThingComponent, ThingObject } from '../../../utils/types';
 import { getThingFromPath } from '../../../utils/path';
 import componentLib from '../../../utils/componentLib';
-import { RootState } from '../../state/store';
+import { RootState } from '../../state';
 import { useSelector, useDispatch } from 'react-redux';
-import { startEdittingThing } from '../../state/contextSlice';
+import appContext from '../../state';
 
 type ThingProps = {
     path: PathNodes,
@@ -33,7 +33,7 @@ const ThingContainer = ({ path }: ThingProps): JSX.Element => {
 
     const handleAuthorClick = (event: MouseEvent): void => {
         if (!authorMode) return;
-        dispatch(startEdittingThing(path));
+        dispatch(appContext.startEdittingThing(path));
         event.stopPropagation();
     }
 

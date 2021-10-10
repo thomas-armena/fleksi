@@ -1,17 +1,26 @@
 import React from 'react';
 import ThingApp from './components/ThingApp/ThingApp';
 import { ThingAppContext } from '../utils/types';
-import { store } from './state/store';
+import appContext from './state';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 
 declare let thingAppContext: ThingAppContext;
 
+appContext.setInitialState({
+    rootThing: thingAppContext.rootThing,
+    authorMode: thingAppContext.authorMode,
+    path: thingAppContext.path,
+    editorWindowOpen: false,
+    editPath: [],
+    synced: true,
+})
+
 console.log("THING APP CONTEXT");
 console.log(thingAppContext);
 
 ReactDOM.hydrate(
-    <Provider store={store}>
-        <ThingApp thingAppContext={thingAppContext}/>
+    <Provider store={appContext.store}>
+        <ThingApp />
     </Provider>, document.getElementById('root')
 );

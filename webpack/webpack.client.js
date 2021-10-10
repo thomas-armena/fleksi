@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const entryIndex = path.resolve(__dirname, '..', 'src', 'renderer', 'client.tsx');
 const entryDir = path.resolve(__dirname, '..', 'src');
@@ -21,7 +22,7 @@ const babelRule = {
 const cssRule = {
     test: /\.css$/i,
     use: [
-        'style-loader',
+        MiniCssExtractPlugin.loader,
         "css-loader"
     ],
 };
@@ -29,7 +30,7 @@ const cssRule = {
 const scssRule = {
     test: /\.s[ac]ss$/i,
     use: [
-        'style-loader',
+        MiniCssExtractPlugin.loader,
         "css-loader",
         "sass-loader",
     ],
@@ -59,5 +60,8 @@ module.exports = {
         minimize: false
     },
     target: 'node',
-    devtool: 'source-map'
+    devtool: 'source-map',
+    plugins: [
+        new MiniCssExtractPlugin(),
+    ],
 };

@@ -1,10 +1,9 @@
 import React from 'react';
-import { updateNode } from '../../api';
 import { PathNodes } from '../../../utils/types';
 import { useSelector, useDispatch } from 'react-redux'
 import { getThingFromPath } from '../../../utils/path';
-import { RootState } from '../../state/store';
-import { editThingAndUpdate } from '../../state/contextSlice';
+import { RootState } from '../../state';
+import appContext from '../../state';
 
 type JsonEditorProps = {
     path: PathNodes
@@ -29,7 +28,7 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
 
     const handleValueChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
-        dispatch(editThingAndUpdate({ path, newValue }));
+        dispatch(appContext.editThingAndUpdate({ path, newValue }));
     }
 
     const renderValue = (): JSX.Element => {

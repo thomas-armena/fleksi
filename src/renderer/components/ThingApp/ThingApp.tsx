@@ -4,22 +4,14 @@ import ThingContainer from '../ThingContainer/ThingContainer';
 import EditorWindow from '../EditorWindow/EditorWindow';
 import { ThingAppContext } from '../../../utils/types';
 import { useSelector, useDispatch } from 'react-redux'
-import { init } from '../../state/contextSlice';
-import { RootState } from '../../state/store';
+import appContext from '../../state';
+import { RootState } from '../../state';
 
-type ThingAppProps = {
-    thingAppContext: ThingAppContext
-}
+const ThingApp = (): JSX.Element => {
 
-const ThingApp = ({ thingAppContext }: ThingAppProps): JSX.Element => {
-
-    console.log('rendering thing app', thingAppContext);
-    const dispatch = useDispatch();
-    const { authorMode, editorWindowOpen, path } = useSelector((state: RootState) => state.context);
-
-    useEffect(() => {
-        dispatch(init(thingAppContext));
-    }, []);
+    const { authorMode, editorWindowOpen, path, rootThing } = useSelector((state: RootState) => state.context);
+    console.log("ROOT THING", rootThing);
+    console.log("PATH", path);
 
     return (
         <div className="page-container">
