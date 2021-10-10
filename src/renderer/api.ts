@@ -5,6 +5,8 @@ let updateCancelSource: CancelTokenSource = null;
 let getCancelSource: CancelTokenSource = null;
 
 const updateNode = async (path: string[], value: Thing): Promise<AxiosResponse | null> => {
+    console.log("updating node");
+    console.log("path: ", path);
     const url = getUrlFromPathNodes(path);
     try {
         if (updateCancelSource != null) {
@@ -17,6 +19,7 @@ const updateNode = async (path: string[], value: Thing): Promise<AxiosResponse |
             },
             cancelToken: updateCancelSource.token
         });
+        console.log(response);
         return response;
     } catch(error) {
         console.error(error);

@@ -16,9 +16,6 @@ appContext.setInitialState({
     synced: true,
 })
 
-console.log("THING APP CONTEXT");
-console.log(thingAppContext);
-
 ReactDOM.hydrate(
     <Provider store={appContext.store}>
         <ThingApp />

@@ -6,7 +6,6 @@ import ReactDOMServer from 'react-dom/server';
 import appContext from './state';
 
 const renderNodeToString = (thingAppContext: ThingAppContext): string => {
-    console.log("render node to string", thingAppContext)
 
     appContext.setInitialState({
         rootThing: thingAppContext.rootThing,

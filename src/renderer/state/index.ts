@@ -16,8 +16,6 @@ export interface ContextState {
     synced: boolean,
 }
 
-
-
 const defaultInitialState: ContextState = {
     rootThing: {_kind: 'none'},
     authorMode: false,
@@ -41,6 +39,7 @@ class AppContext {
     
     constructor(initialState: ContextState = defaultInitialState) {
         this.setInitialState(initialState);
+        this.updateCount = 0;
     }
 
     setInitialState(initialState: ContextState) {
@@ -95,7 +94,6 @@ class AppContext {
                     const rootThing = await fetchNode([""]) as ThingObject;
                     dispatch(this.updateRootThing(rootThing));
                 } catch(error) {
-                    console.log('update failed');
                     console.error(error);
                 }
             }
