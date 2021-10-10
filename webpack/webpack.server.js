@@ -55,6 +55,9 @@ module.exports = {
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js', 'jsx'],
+        alias:{
+            'prop-types$': path.join(__dirname, '../node_modules/axe-prop-types')
+        },
     },
     optimization: {
         minimize: false

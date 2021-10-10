@@ -6,9 +6,10 @@ import bodyParser from 'body-parser';
 import { Thing, ThingAppContext, ThingObject } from '../utils/types';
 import { APP_DIR, PATH_TO_HTML_TEMPLATE, THING_APP_CONTEXT_REGEX, THING_APP_REGEX, WORKING_DIR } from '../utils/constants';
 import { getPathNodesFromURL, getThingFromPath } from '../utils/path';
-import { KIND } from '../utils/kinds';
+import Kinds, { KIND } from '../utils/kinds';
 import { renderNodeToString } from '../renderer';
 import componentLib from '../utils/componentLib';
+import { validate } from 'webpack';
 
 interface ThingPostBody { set: Thing }
 
@@ -64,6 +65,16 @@ const startServer = () => {
 }
 
 const start = async () => {
+    const kinds = new Kinds();
+    kinds.addComponentLibrary(componentLib);
+    const rootThing = await database.getThing("/");
+    console.log("validating:", rootThing);
+    if (kinds.validate(rootThing as ThingObject)) {
+        console.log("Validated things")
+    } else {
+        console.log("Things not valid");
+    }
+
     await database.populateWithInitialData();
     startServer();
     console.log("server started")
