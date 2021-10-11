@@ -7,6 +7,10 @@ export const KIND = {
     FILE: 'file'
 };
 
+export interface TemplateMap {
+    [key: string]: ThingObject
+}
+
 export type KindValue = string | KindDefinitionMap
 
 export interface KindDefinitionMap {
@@ -15,7 +19,7 @@ export interface KindDefinitionMap {
 
 class Kinds {
 
-    kindDefinitions: KindDefinitionMap;
+    public kindDefinitions: KindDefinitionMap;
 
     constructor(kindDefinitions: KindDefinitionMap = {}) {
         this.kindDefinitions = kindDefinitions;
@@ -42,7 +46,7 @@ class Kinds {
         console.log(this.kindDefinitions);
     }
 
-    validate(thingObject: ThingObject): boolean {
+    validate(thingObject: ThingObject): boolean { // TODO: Fix this thing
         const kindDefinition = this.kindDefinitions[thingObject._kind];
         if (!kindDefinition) {
             console.error("!kindDefintion", kindDefinition);
@@ -93,11 +97,18 @@ class Kinds {
             }
             return template;
         }
-        
+    }
+
+    createAllTemplates(): TemplateMap {
+        const templates: TemplateMap = {};
+        for (const kindName of Object.keys(this.kindDefinitions)){
+            templates[kindName] = this.createTemplate(kindName) as ThingObject;
+        }
+        return templates;
     }
 
 
 }
 
-export default Kinds
+export default Kinds;
 

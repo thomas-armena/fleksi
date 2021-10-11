@@ -9,7 +9,8 @@ import { getPathNodesFromURL, getThingFromPath } from '../utils/path';
 import Kinds, { KIND } from '../utils/kinds';
 import { renderNodeToString } from '../renderer';
 import componentLib from '../utils/componentLib';
-import { validate } from 'webpack';
+
+const kinds = new Kinds();
 
 interface ThingPostBody { set: Thing }
 
@@ -39,7 +40,8 @@ const startServer = () => {
                 rootThing,
                 authorMode,
                 path: pathNodes,
-                componentLib: componentLib
+                kinds: kinds.kindDefinitions,
+                templates: kinds.createAllTemplates(),
             };
             const htmlResponse = generateHTML(thingAppContext);
             res.set('Content-Type', 'text/html');
@@ -65,16 +67,8 @@ const startServer = () => {
 }
 
 const start = async () => {
-    const kinds = new Kinds();
     kinds.addComponentLibrary(componentLib);
-    const rootThing = await database.getThing("/");
-    console.log("validating:", rootThing);
-    if (kinds.validate(rootThing as ThingObject)) {
-        console.log("Validated things")
-    } else {
-        console.log("Things not valid");
-    }
-
+    console.log(kinds.createTemplate("Image"));
     await database.populateWithInitialData();
     startServer();
     console.log("server started")

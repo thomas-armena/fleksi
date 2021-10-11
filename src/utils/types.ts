@@ -1,4 +1,4 @@
-import { ComponentLibrary } from "./componentLib";
+import { KindDefinitionMap, TemplateMap } from "./kinds";
 
 export interface ThingObject {
     _kind: string,
@@ -16,7 +16,8 @@ export interface ThingAppContext {
     rootThing: ThingObject,
     authorMode: boolean,
     path: string[],
-    componentLib: ComponentLibrary
+    kinds: KindDefinitionMap,
+    templates: TemplateMap,
 }
 
 export interface ThingComponent {
