@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getThingFromPath } from '../../../utils/path';
 import { RootState } from '../../state';
 import appContext from '../../state';
+import './JsonEditor.scss';
 
 type JsonEditorProps = {
     path: PathNodes
@@ -53,7 +54,9 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
 
     const key = path[path.length-1];
     return (
-        <li style={{ background: isBeingEditted ? 'darkgray': 'transparent'}}>
+        <li 
+            className="json-editor"
+            style={{ background: isBeingEditted ? 'darkgray': 'transparent'}}>
             {key}: {parentIsBeingEditted ? renderValueEditor() : renderValue()}
         </li>
         

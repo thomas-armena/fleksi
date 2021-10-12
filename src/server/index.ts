@@ -7,7 +7,7 @@ import { Thing, ThingAppContext, ThingObject } from '../utils/types';
 import { APP_DIR, PATH_TO_HTML_TEMPLATE, THING_APP_CONTEXT_REGEX, THING_APP_REGEX, WORKING_DIR } from '../utils/constants';
 import { getPathNodesFromURL, getThingFromPath } from '../utils/path';
 import Kinds, { KIND } from '../utils/kinds';
-import { renderNodeToString } from '../renderer';
+import { renderNodeToString } from '../renderer/server';
 import componentLib from '../utils/componentLib';
 
 const kinds = new Kinds();
