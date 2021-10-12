@@ -11,18 +11,24 @@ export interface ContextState {
     rootThing: ThingObject,
     authorMode: boolean,
     path: PathNodes,
-    editorWindowOpen: boolean,
     editPath: PathNodes,
     synced: boolean,
+
+    editorWindowOpen: boolean,
+    editorWindowWidth: number,
+    editorWindowIsDragging: boolean,
+
+    editorWindowDragStartWidth: number,
+    editorWindowDragStartPosition: number,
+
 }
 
-const defaultInitialState: ContextState = {
+const defaultThingAppContext: ThingAppContext = {
     rootThing: {_kind: 'none'},
     authorMode: false,
     path: [],
-    editorWindowOpen: false,
-    editPath: [],
-    synced: true,
+    kinds: {},
+    templates: {}
 }
 
 class AppContext {
@@ -32,17 +38,40 @@ class AppContext {
     startEdittingThing: ActionCreatorWithOptionalPayload<PathNodes, string>
     editThing: ActionCreatorWithOptionalPayload<EditThingPayload, string>
     updateRootThing: ActionCreatorWithOptionalPayload<ThingObject, string>
+    start: ActionCreatorWithOptionalPayload<ThingObject, string>
+    startDraggingEditorWindow: ActionCreatorWithOptionalPayload<number, string>
+    dragEditorWindow: ActionCreatorWithOptionalPayload<number, string>
+    stopDraggingEditorWindow: ActionCreatorWithoutPayload<string>
+
     editThingAndUpdate: (payload: EditThingPayload) => (dispatch: Dispatch) => Promise<void>
     store: any
 
     updateCount: number
     
-    constructor(initialState: ContextState = defaultInitialState) {
-        this.setInitialState(initialState);
+    constructor(thingAppContext: ThingAppContext = defaultThingAppContext) {
+        this.setInitialState(thingAppContext);
         this.updateCount = 0;
     }
 
-    setInitialState(initialState: ContextState) {
+    setInitialState(thingAppContext: ThingAppContext) {
+
+        const initialState: ContextState = {
+            rootThing: thingAppContext.rootThing,
+            authorMode: thingAppContext.authorMode,
+            path: thingAppContext.path,
+
+            editPath: [],
+            synced: true,
+
+            editorWindowOpen: false,
+            editorWindowWidth: 400,
+            editorWindowIsDragging: false,
+
+            editorWindowDragStartWidth: -1,
+            editorWindowDragStartPosition: -1,
+
+        }
+
         const slice = createSlice({
             name: 'context',
             initialState,
@@ -73,6 +102,19 @@ class AppContext {
                 updateRootThing: (state, action: PayloadAction<ThingObject>) => {
                     state.rootThing = action.payload;
                     state.synced = true;
+                },
+                startDraggingEditorWindow: (state, action: PayloadAction<number>) => {
+                    state.editorWindowDragStartWidth = state.editorWindowWidth;
+                    state.editorWindowDragStartPosition = action.payload;
+                    state.editorWindowIsDragging = true;
+                },
+                dragEditorWindow: (state, action: PayloadAction<number>) => {
+                    const currentMousePosition = action.payload;
+                    const dragDelta = currentMousePosition - state.editorWindowDragStartPosition;
+                    state.editorWindowWidth = Math.max(200, state.editorWindowDragStartWidth + dragDelta);
+                },
+                stopDraggingEditorWindow: (state) => {
+                    state.editorWindowIsDragging = false;
                 }
             },
         })
@@ -82,6 +124,10 @@ class AppContext {
         this.startEdittingThing = slice.actions.startEdittingThing;
         this.editThing = slice.actions.editThing;
         this.updateRootThing = slice.actions.updateRootThing;
+        this.startDraggingEditorWindow = slice.actions.startDraggingEditorWindow;
+        this.dragEditorWindow = slice.actions.dragEditorWindow;
+        this.stopDraggingEditorWindow = slice.actions.stopDraggingEditorWindow;
+
         this.editThingAndUpdate = (payload: EditThingPayload) => {
             return async (dispatch: Dispatch): Promise<void> => {
                 dispatch(this.editThing(payload));

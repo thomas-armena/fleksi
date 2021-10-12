@@ -7,16 +7,7 @@ import ReactDOM from 'react-dom';
 
 declare let thingAppContext: ThingAppContext;
 
-appContext.setInitialState({
-    rootThing: thingAppContext.rootThing,
-    authorMode: thingAppContext.authorMode,
-    path: thingAppContext.path,
-    editorWindowOpen: false,
-    editPath: [],
-    synced: true,
-})
-
-console.log(thingAppContext);
+appContext.setInitialState(thingAppContext);
 
 ReactDOM.hydrate(
     <Provider store={appContext.store}>

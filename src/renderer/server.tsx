@@ -7,14 +7,7 @@ import appContext from './state';
 
 const renderNodeToString = (thingAppContext: ThingAppContext): string => {
 
-    appContext.setInitialState({
-        rootThing: thingAppContext.rootThing,
-        authorMode: thingAppContext.authorMode,
-        path: thingAppContext.path,
-        editorWindowOpen: false,
-        editPath: [],
-        synced: true,
-    })
+    appContext.setInitialState(thingAppContext);
 
     const store = appContext.store;
 
