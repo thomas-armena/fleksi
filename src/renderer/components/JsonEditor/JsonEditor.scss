@@ -2,4 +2,32 @@
 
 .json-editor {
     overflow-x: hidden;
+    box-sizing: border-box;
+
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 2px;
+    border-width: 1px;
+
+    padding: 2px;
+
+    input {
+        background-color: $background;
+        color: $string;
+        border: none;
+        box-sizing: border-box;
+        border-width: 1px;
+        border-color: transparent;
+        border-style: solid;
+        outline: 0;
+        width: 200px;
+
+        &:focus {
+            border-color: $focusblue;
+        }
+    }
+
+    &.focused {
+        border-color: $focusblue;
+    }
 }

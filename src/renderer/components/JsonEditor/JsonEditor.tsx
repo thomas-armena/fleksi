@@ -53,13 +53,15 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
     }
 
     const key = path[path.length-1];
+    let className = "json-editor";
+    if (isBeingEditted) className += " focused";
     return (
         <li 
-            className="json-editor"
-            style={{ background: isBeingEditted ? 'darkgray': 'transparent'}}>
-            {key}: {parentIsBeingEditted ? renderValueEditor() : renderValue()}
-        </li>
-        
+            className={className}
+        >
+            {key}: {renderValueEditor()}
+            {/* {key}: {parentIsBeingEditted ? renderValueEditor() : renderValue()} */}
+        </li>   
     )
 }
 

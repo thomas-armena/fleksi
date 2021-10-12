@@ -8,6 +8,10 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
+
+    ul {
+        padding-left: 20px;
+    }
 }
 
 .editor-content {
@@ -22,7 +26,8 @@
     white-space: nowrap;
 
     .save-status {
-        float: right;
+        position: absolute;
+        right: 30px;
         color: $lightgray;
         font-size: 12px;
     }
