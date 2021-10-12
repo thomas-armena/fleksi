@@ -42,6 +42,7 @@ class AppContext {
     startDraggingEditorWindow: ActionCreatorWithOptionalPayload<number, string>
     dragEditorWindow: ActionCreatorWithOptionalPayload<number, string>
     stopDraggingEditorWindow: ActionCreatorWithoutPayload<string>
+    closeEditorWindow: ActionCreatorWithoutPayload<string>
 
     editThingAndUpdate: (payload: EditThingPayload) => (dispatch: Dispatch) => Promise<void>
     store: any
@@ -115,7 +116,10 @@ class AppContext {
                 },
                 stopDraggingEditorWindow: (state) => {
                     state.editorWindowIsDragging = false;
-                }
+                },
+                closeEditorWindow: (state) => {
+                    state.editorWindowOpen = false;
+                },
             },
         })
         this.contextSlice = slice;
@@ -127,6 +131,7 @@ class AppContext {
         this.startDraggingEditorWindow = slice.actions.startDraggingEditorWindow;
         this.dragEditorWindow = slice.actions.dragEditorWindow;
         this.stopDraggingEditorWindow = slice.actions.stopDraggingEditorWindow;
+        this.closeEditorWindow = slice.actions.closeEditorWindow;
 
         this.editThingAndUpdate = (payload: EditThingPayload) => {
             return async (dispatch: Dispatch): Promise<void> => {

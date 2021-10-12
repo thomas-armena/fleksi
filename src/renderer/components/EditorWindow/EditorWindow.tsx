@@ -20,7 +20,11 @@ const EditorWindow = (): JSX.Element => {
                     onMouseDown={(e)=>{
                         dispatch(appContext.startDraggingEditorWindow(e.clientX));
                     }}
-                ></div>
+                >
+                    <button
+                        onClick={()=>dispatch(appContext.closeEditorWindow())}
+                    >x</button>
+                </div>
             </div>
             <div style={{width:`${editorWindowWidth}px`}}></div>
         </>
