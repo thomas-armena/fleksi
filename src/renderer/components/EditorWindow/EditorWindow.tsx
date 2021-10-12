@@ -13,7 +13,7 @@ const EditorWindow = (): JSX.Element => {
         <>
             <div className="editor-window" style={{width:`${editorWindowWidth}px`}}>
                 <div className="editor-content">
-                    <div>{synced ? 'Up to date' : 'Saving...'}</div>
+                    <div className="save-status">{synced ? 'Up to date' : 'Saving...'}</div>
                     <JsonEditor path={path} />
                 </div>
                 <div className="editor-drag"

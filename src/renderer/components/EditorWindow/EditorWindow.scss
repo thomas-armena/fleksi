@@ -20,6 +20,12 @@
     overflow-y: scroll;
     font-size: 14px;
     white-space: nowrap;
+
+    .save-status {
+        float: right;
+        color: $lightgray;
+        font-size: 12px;
+    }
 }
 
 .editor-drag {
