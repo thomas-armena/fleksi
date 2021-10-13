@@ -5,6 +5,7 @@ import { getThingFromPath } from '../../../utils/path';
 import { RootState } from '../../state';
 import appContext from '../../state';
 import './JsonEditor.scss';
+import e from 'express';
 
 type JsonEditorProps = {
     path: PathNodes
@@ -12,8 +13,10 @@ type JsonEditorProps = {
 
 const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
     const dispatch = useDispatch();
-    const { rootThing, editPath } = useSelector((state: RootState) => state.context);
+    const { rootThing, editPath, revealMap } = useSelector((state: RootState) => state.context);
     const thing = getThingFromPath(rootThing, path);
+
+    const isRevealed = revealMap[path.join("/")];
 
     const isBeingEditted = arrEqual(editPath, path);
     const parentIsBeingEditted = arrIsSubset(editPath, path);
@@ -59,8 +62,19 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
         <li 
             className={className}
         >
-            {key}: {renderValueEditor()}
-            {/* {key}: {parentIsBeingEditted ? renderValueEditor() : renderValue()} */}
+            <div className="json-key" onClick={()=>{
+                if (isRevealed) {
+                    dispatch(appContext.hideThing(path));
+                } else {
+                    dispatch(appContext.revealThing(path));
+                }
+            }}>
+                <i className="material-icons">{ isRevealed ?  "keyboard_arrow_down" : "keyboard_arrow_right" }</i>
+                {key}
+            </div>
+            {isRevealed && <div className="json-value">
+                {renderValueEditor()}
+            </div>}
         </li>   
     )
 }

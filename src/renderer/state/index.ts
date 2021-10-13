@@ -21,6 +21,8 @@ export interface ContextState {
     editorWindowDragStartWidth: number,
     editorWindowDragStartPosition: number,
 
+    revealMap: { [key: string]: boolean }
+
 }
 
 const defaultThingAppContext: ThingAppContext = {
@@ -43,6 +45,8 @@ class AppContext {
     dragEditorWindow: ActionCreatorWithOptionalPayload<number, string>
     stopDraggingEditorWindow: ActionCreatorWithoutPayload<string>
     closeEditorWindow: ActionCreatorWithoutPayload<string>
+    revealThing: ActionCreatorWithOptionalPayload<PathNodes, string>
+    hideThing: ActionCreatorWithOptionalPayload<PathNodes, string>
 
     editThingAndUpdate: (payload: EditThingPayload) => (dispatch: Dispatch) => Promise<void>
     store: any
@@ -71,6 +75,8 @@ class AppContext {
             editorWindowDragStartWidth: -1,
             editorWindowDragStartPosition: -1,
 
+            revealMap: {}
+
         }
 
         const slice = createSlice({
@@ -88,6 +94,13 @@ class AppContext {
                 startEdittingThing: (state, action: PayloadAction<PathNodes>) => {
                     state.editorWindowOpen = true;
                     state.editPath = action.payload;
+
+                    let rollingPath = [];
+                    for (let pathNode of action.payload) {
+                        rollingPath.push(pathNode);
+                        const key = rollingPath.join("/");
+                        state.revealMap[key] = true;
+                    }
                 },
                 editThing: (state, action: PayloadAction<EditThingPayload>) => {
                     const { path, newValue } = action.payload;
@@ -120,6 +133,14 @@ class AppContext {
                 closeEditorWindow: (state) => {
                     state.editorWindowOpen = false;
                 },
+                revealThing: (state, action: PayloadAction<PathNodes>) => {
+                    const key = action.payload.join("/");
+                    state.revealMap[key] = true;
+                },
+                hideThing: (state, action: PayloadAction<PathNodes>) => {
+                    const key = action.payload.join("/");
+                    state.revealMap[key] = false;
+                },            
             },
         })
         this.contextSlice = slice;
@@ -132,6 +153,8 @@ class AppContext {
         this.dragEditorWindow = slice.actions.dragEditorWindow;
         this.stopDraggingEditorWindow = slice.actions.stopDraggingEditorWindow;
         this.closeEditorWindow = slice.actions.closeEditorWindow;
+        this.revealThing = slice.actions.revealThing;
+        this.hideThing = slice.actions.hideThing;
 
         this.editThingAndUpdate = (payload: EditThingPayload) => {
             return async (dispatch: Dispatch): Promise<void> => {

@@ -11,6 +11,20 @@
 
     padding: 2px;
 
+    .json-key {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $highlightedbackground;
+        }
+    }
+
+    .json-value {
+    }
+
     input {
         background-color: $background;
         color: $string;
@@ -21,6 +35,8 @@
         border-style: solid;
         outline: 0;
         width: 200px;
+        margin-left: 20px;
+        padding: 5px;
 
         &:focus {
             border-color: $focusblue;
