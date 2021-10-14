@@ -4,7 +4,8 @@ import Heading1 from './Heading1.jsx';
 import Page from './Page.jsx';
 import Text from './Text.jsx';
 import Image from './Image/Image.jsx';
+import Person from './Person.jsx';
 import './index.css';
 export default {
-    Content, Hero, Heading1, Page, Text, Image
+    Content, Hero, Heading1, Page, Text, Image, Person
 };

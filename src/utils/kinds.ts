@@ -1,5 +1,6 @@
 import componentLib, { ComponentLibrary } from "./componentLib";
-import { ThingObject, Thing } from "./types";
+import { ThingObject, Thing, ThingComponent } from "./types";
+import util from 'util';
 
 const IGNORED_ATTRIBUTES = ['_id', '_isRoot'];
 
@@ -15,6 +16,19 @@ export type KindValue = string | KindDefinitionMap
 
 export interface KindDefinitionMap {
     [key: string]: KindValue
+}
+
+interface PropTypeInfo {
+    objectShape?: ObjectShape,
+    propTypeName: string,
+    isRequired: boolean
+}
+
+interface ObjectShape {
+    [key: string]: {
+        isRequired: boolean,
+        info: PropTypeInfo,
+    }
 }
 
 class Kinds {
@@ -33,23 +47,45 @@ class Kinds {
         const componentKindDefinitions = {};
         for (const componentName of Object.keys(componentLibrary)) {
             const component = componentLibrary[componentName];
-            const argumentsDefinitions: KindDefinitionMap = {};
-            for (const propName of Object.keys(component.propTypes)) {
-                const propTypeInfo = component.propTypes[propName].info;
-                argumentsDefinitions[propName] = propTypeInfo.propTypeName;
-            }
-            componentKindDefinitions[componentName] = {
-                _arguments: argumentsDefinitions
-            };
+            componentKindDefinitions[componentName] = this._getKindDefinitionFromComponent(component);
         }
         this.kindDefinitions = { ...componentKindDefinitions };
-        console.log(this.kindDefinitions);
+        console.log(util.inspect(this.kindDefinitions, {showHidden: false, depth: null, colors: true}))
+    }
+
+    _getKindDefinitionFromComponent(component: React.FunctionComponent<{ thingComponent: ThingComponent }>) {
+        const argumentsDefinitions: KindDefinitionMap = {};
+        for (const propName of Object.keys(component.propTypes)) {
+            const propTypeInfo: PropTypeInfo = component.propTypes[propName].info;
+            argumentsDefinitions[propName] = this._getKindDefinitionFromPropTypeInfo(propTypeInfo);
+        }
+        return {
+            _arguments: argumentsDefinitions
+        }
+    }
+
+    _getKindDefinitionFromPropTypeInfo(propTypeInfo: PropTypeInfo): KindValue {
+        const { propTypeName } = propTypeInfo;
+        if (propTypeName === 'shape') {
+            return this._getKindDefinitionFromShape(propTypeInfo.objectShape);
+        } else {
+            return propTypeName;
+        }
+    }
+
+    _getKindDefinitionFromShape(objectShape: ObjectShape): KindValue {
+        const kindValue = {};
+        for (const key of Object.keys(objectShape)) {
+            const propTypeInfo = objectShape[key].info;
+            kindValue[key] = this._getKindDefinitionFromPropTypeInfo(propTypeInfo);
+        }
+        return kindValue;
     }
 
     validate(thingObject: ThingObject): boolean { // TODO: Fix this thing
         const kindDefinition = this.kindDefinitions[thingObject._kind];
         if (!kindDefinition) {
-            console.error("!kindDefintion", kindDefinition);
+            console.error("!kindDefinition", kindDefinition);
             return false
         }
         for (const key of Object.keys(thingObject)) {

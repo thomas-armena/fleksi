@@ -68,7 +68,7 @@ const startServer = () => {
 
 const start = async () => {
     kinds.addComponentLibrary(componentLib);
-    console.log(kinds.createTemplate("Image"));
+    console.log(kinds.createTemplate("Person"));
     await database.populateWithInitialData();
     startServer();
     console.log("server started")
