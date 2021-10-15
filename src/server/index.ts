@@ -90,8 +90,11 @@ const start = async () => {
     await database.populateWithInitialData();
     startServer();
     const rootThing = await database.getThing('/');
-    logFull(kinds.kindDefinitions);
-    logFull(rootThing);
+    if (kinds.validate(rootThing as ThingObject)) {
+        console.log('Validated data');
+    } else {
+        console.warn('Failed to validate data');
+    }
     console.log('server started');
 };
 

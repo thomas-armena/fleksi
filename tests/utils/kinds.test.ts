@@ -106,11 +106,20 @@ describe('kinds', () => {
         }
 
         const wrongTestObjects: ThingObject[] = [
+            // {
+            //     _kind: "Page"
+            // },
+            // {
+            //     _kind: "NonExisting"
+            // }, 
             {
-                _kind: "Page"
-            },
-            {
-                _kind: "NonExisting"
+                _kind: "Page",
+                _children: {
+                    someChild: {
+                        _kind: "Wrong",
+                    },
+                },
+                _arguments: {},
             }
         ]
 

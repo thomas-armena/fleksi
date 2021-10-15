@@ -2,9 +2,10 @@ import { object } from 'prop-types';
 import componentLib, { ComponentLibrary } from './componentLib';
 import { ThingObject, Thing, ThingComponent } from './types';
 
-export const KIND = {
-    FILE: 'file',
-};
+const defaultKinds = {
+    'file': {},
+    'none': {}
+}
 
 export interface TemplateMap {
     [key: string]: ThingObject;
@@ -33,7 +34,7 @@ class Kinds {
     public kindDefinitions: KindDefinitionMap;
 
     constructor(kindDefinitions: KindDefinitionMap = {}) {
-        this.kindDefinitions = kindDefinitions;
+        this.kindDefinitions = { ...defaultKinds, ...kindDefinitions};
     }
 
     addKindDefinitions(kindDefinitions: KindDefinitionMap): void {
@@ -57,7 +58,6 @@ class Kinds {
             _arguments: {},
         };
         for (const propName of Object.keys(component.propTypes)) {
-            console.log(propName);
             if (propName === 'children') {
                 kindDefinition._children = 'object';
                 continue;
@@ -92,8 +92,8 @@ class Kinds {
     validate(thingObject: ThingObject): boolean {
         if (typeof thingObject !== 'object') return true;
         const kind = this._getKind(thingObject);
-        if (kind === 'none') return true;
         const kindDefinition = this.kindDefinitions[kind];
+
         if (kindDefinition === undefined) {
             console.warn(`definition for ${kind} doesn't exist`);
             return false;
