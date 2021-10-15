@@ -19,8 +19,10 @@ import { logFull } from '../utils/logging';
 const kinds = new Kinds();
 
 interface ThingPostBody {
+    kind?: string;
     set: Thing;
 }
+
 
 const startServer = () => {
     const app = express();
@@ -64,8 +66,19 @@ const startServer = () => {
 
     app.post('*', async (req, res) => {
         const thingPostBody = req.body as ThingPostBody;
-        const result = await database.setThing(req.url, thingPostBody.set);
-        res.send(result);
+        let thing: Thing;
+        if (thingPostBody.kind) {
+            thing = kinds.createTemplate(thingPostBody.kind)
+        } else {
+            thing = thingPostBody.set;
+        }
+        if (kinds.validate(thingPostBody)) {
+            console.log(req.url, thing);
+            const result = await database.setThing(req.url, thing);
+            res.send(result);
+        } else {
+            res.status(400).send("Incorrect thing object");
+        }
     });
 
     const generateHTML = (thingAppContext: ThingAppContext): string => {

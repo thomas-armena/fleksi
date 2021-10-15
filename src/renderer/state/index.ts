@@ -134,6 +134,7 @@ class AppContext {
                     state.editorWindowOpen = false;
                 },
                 revealThing: (state, action: PayloadAction<PathNodes>) => {
+                    state.editPath = action.payload;
                     const key = action.payload.join("/");
                     state.revealMap[key] = true;
                 },

@@ -53,7 +53,7 @@ class Kinds {
             componentKindDefinitions[componentName] =
                 this._getKindDefinitionFromComponent(component);
         }
-        this.kindDefinitions = { ...componentKindDefinitions };
+        this.kindDefinitions = { ...this.kindDefinitions, ...componentKindDefinitions };
     }
 
     _getKindDefinitionFromComponent(
