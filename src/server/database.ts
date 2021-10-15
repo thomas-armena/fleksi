@@ -1,4 +1,13 @@
-import { MongoClient, Collection, UpdateResult, Document, Db, GridFSBucket, GridFSBucketReadStream, ServerClosedEvent } from 'mongodb';
+import {
+    MongoClient,
+    Collection,
+    UpdateResult,
+    Document,
+    Db,
+    GridFSBucket,
+    GridFSBucketReadStream,
+    ServerClosedEvent,
+} from 'mongodb';
 import FileSystem from './filesystem';
 import { Thing, ThingObject, PathNodes } from '../utils/types';
 import { getPathNodesFromURL } from '../utils/path';
@@ -24,12 +33,12 @@ class Database {
         try {
             await this.bucket.drop();
         } catch {
-            console.log("no bucket to drop")
+            console.log('no bucket to drop');
         }
         const fileSystem = new FileSystem();
         const initialRoot = fileSystem.getRoot();
         await this._uploadFiles(initialRoot, fileSystem, []);
-        const collection = this._getRootCollection()
+        const collection = this._getRootCollection();
         const result = await collection.updateOne(
             { _isRoot: true },
             { $set: initialRoot },
@@ -51,10 +60,13 @@ class Database {
         return currThing;
     }
 
-    async setThing(path: string, updatedThing: Thing): Promise<UpdateResult | Document> {
+    async setThing(
+        path: string,
+        updatedThing: Thing
+    ): Promise<UpdateResult | Document> {
         await this.connect();
         const pathNodes = getPathNodesFromURL(path);
-        const key = pathNodes.join(".");
+        const key = pathNodes.join('.');
         const result = await this._getRootCollection().updateOne(
             { _isRoot: true },
             { $set: { [key]: updatedThing } },
@@ -66,7 +78,8 @@ class Database {
 
     getFileWriteStream(url: string): GridFSBucketReadStream {
         this.connect();
-        return this.bucket.openDownloadStreamByName(url)
+        return this.bucket
+            .openDownloadStreamByName(url)
             .on('end', () => this.close())
             .on('close', () => this.close());
     }
@@ -74,18 +87,20 @@ class Database {
     async connect(): Promise<void> {
         try {
             await this.client.connect();
-        } catch(err) {
-            console.error(err)
+        } catch (err) {
+            console.error(err);
         }
     }
 
-    async close(): Promise<void>  {
+    async close(): Promise<void> {
         await this.client.close();
     }
 
     async _getRoot(): Promise<Thing> {
         await this.connect();
-        const result = await this._getRootCollection().findOne({ _isRoot: true })
+        const result = await this._getRootCollection().findOne({
+            _isRoot: true,
+        });
         await this.close();
         return result;
     }
@@ -98,7 +113,11 @@ class Database {
         return this._getDatabase().collection(DB_WEB_COLLECTION);
     }
 
-    async _uploadFiles(thingObject: ThingObject, fileSystem: FileSystem, path: PathNodes) {
+    async _uploadFiles(
+        thingObject: ThingObject,
+        fileSystem: FileSystem,
+        path: PathNodes
+    ) {
         for (const key of Object.keys(thingObject)) {
             const childThing = thingObject[key];
             if (typeof childThing === 'object') {
@@ -107,11 +126,14 @@ class Database {
                     const fileDir = [...path, key].join('/');
                     try {
                         await this._uploadFile(fileDir, fileSystem);
-                    } catch(error) {
+                    } catch (error) {
                         console.error(error);
                     }
                 }
-                await this._uploadFiles(childThingObject, fileSystem, [...path, key]);
+                await this._uploadFiles(childThingObject, fileSystem, [
+                    ...path,
+                    key,
+                ]);
             }
         }
     }
@@ -119,11 +141,12 @@ class Database {
     _uploadFile(fileDir: string, fileSystem: FileSystem) {
         return new Promise<void>((resolve, reject) => {
             const readStream = fileSystem.readStreams[fileDir];
-            const writeStream = this.bucket.openUploadStream(fileDir)
+            const writeStream = this.bucket
+                .openUploadStream(fileDir)
                 .on('error', (err) => reject(err))
-                .on('finish', () => resolve())
+                .on('finish', () => resolve());
             readStream.pipe(writeStream as any);
-        })
+        });
     }
 }
 
