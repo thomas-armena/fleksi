@@ -7,6 +7,11 @@ const defaultKinds = {
     'none': {}
 }
 
+export const KIND = {
+    FILE: 'file',
+    NONE: 'none,'
+};
+
 export interface TemplateMap {
     [key: string]: ThingObject;
 }
