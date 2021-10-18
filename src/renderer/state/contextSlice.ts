@@ -108,15 +108,6 @@ export const createThingAndRefetch = createAsyncThunk(
     }
 );
 
-// export const createThingAndRefetch = () => {
-//     return async (dispatch, getState): Promise<void> => {
-//         dispatch(submitNewThing());
-//         const { creatorWindow } = getState();
-//         const { name, kind, creatorPath } = creatorWindow;
-
-//     }
-// }
-
 const delay = (t: number): Promise<void> => {
     return new Promise((resolve) => {
         setTimeout(function () {
