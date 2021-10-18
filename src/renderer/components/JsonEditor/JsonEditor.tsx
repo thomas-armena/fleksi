@@ -35,16 +35,6 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
         dispatch(editThingAndRefetch({ path, newValue }));
     }
 
-    const renderValue = (): JSX.Element => {
-        if (typeof thing === 'object') {
-            return renderObject();
-        } else if (typeof thing === 'string') {
-            return <span>{'"'}{thing}{'"'}</span>;
-        } else {
-            return <span>{thing}</span>;
-        }
-    }
-
     const renderValueEditor = (): JSX.Element => {
         if (typeof thing === 'object') {
             return renderObject();
