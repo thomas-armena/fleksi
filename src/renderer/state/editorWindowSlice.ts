@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PathNodes } from '../../utils/types';
 
-export interface EditorWindowState {
+interface EditorWindowState {
     editPath: PathNodes;
     isOpen: boolean;
     width: number;
@@ -11,7 +11,7 @@ export interface EditorWindowState {
     revealMap: { [key: string]: boolean };
 }
 
-export const initialEditorWindowState: EditorWindowState = {
+const initialState: EditorWindowState = {
     editPath: [],
     isOpen: false,
     width: 300,
@@ -23,7 +23,7 @@ export const initialEditorWindowState: EditorWindowState = {
 
 const editorWindowSlice = createSlice({
     name: 'editorWindow',
-    initialState: initialEditorWindowState,
+    initialState: initialState,
     reducers: {
         openEditorWindow: (state) => {
             state.isOpen = true;

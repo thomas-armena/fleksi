@@ -5,8 +5,8 @@ export const getThingFromPath = (rootThing: Thing, path: PathNodes): Thing => {
     for (const key of path) {
         if (key === '') continue;
         currThing = (currThing as ThingObject)[key] as Thing;
-        if (!currThing) {
-            console.error(`key doesn't exist: ${key}`);
+        if (typeof currThing === undefined) {
+            console.error(`key doesn't exist: ${key}, for ${path.join('/')}`);
             return null;
         }
     }

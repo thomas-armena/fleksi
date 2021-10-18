@@ -1,9 +1,10 @@
 @import '../../theme/colors.scss';
+@import '../../theme/layers.scss';
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
 .editor-window {
     position: fixed;
-    z-index: 9999;
+    z-index: $z-editor-window;
     height: 100vh;
     display: flex;
     flex-direction: row;

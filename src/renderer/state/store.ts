@@ -1,11 +1,13 @@
 import { configureStore, StateFromReducersMapObject } from '@reduxjs/toolkit';
 import { ThingAppContext } from '../../utils/types';
 import contextSlice, { ContextState } from './contextSlice';
+import creatorWindowSlice from './creatorWindowSlice';
 import editorWindowSlice from './editorWindowSlice';
 
 const reducer = {
     context: contextSlice.reducer,
     editorWindow: editorWindowSlice.reducer,
+    creatorWindow: creatorWindowSlice.reducer,
 };
 
 export const createStoreFromContext = (thingAppContext: ThingAppContext) => {

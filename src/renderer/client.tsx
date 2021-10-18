@@ -7,6 +7,8 @@ import { createStoreFromContext } from './state/store';
 
 declare let thingAppContext: ThingAppContext;
 
+console.log(thingAppContext);
+
 const store = createStoreFromContext(thingAppContext);
 
 ReactDOM.hydrate(

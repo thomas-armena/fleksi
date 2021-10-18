@@ -1,7 +1,15 @@
-import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
+import {
+    createAsyncThunk,
+    createSlice,
+    Dispatch,
+    PayloadAction,
+} from '@reduxjs/toolkit';
 import { KindDefinitionMap, TemplateMap } from '../../utils/kinds';
 import { PathNodes, Thing, ThingObject } from '../../utils/types';
 import { fetchNode, updateNode } from '../api';
+import { finishCreatingThing } from './actions';
+import { submitNewThing } from './creatorWindowSlice';
+import { RootState } from './store';
 
 export interface ContextState {
     rootThing: ThingObject;
@@ -18,7 +26,7 @@ type EditThingPayload = {
 };
 
 // Note: This initial state will be overwritten by preloaded state
-const initialState: ContextState = { 
+const initialState: ContextState = {
     rootThing: {},
     authorMode: false,
     path: [],
@@ -42,12 +50,20 @@ const contextSlice = createSlice({
             currThing[key] = newValue;
             state.synced = false;
         },
-        finishRefetchingRootThing: (state, action: PayloadAction<ThingObject>) => {
+        finishRefetchingRootThing: (
+            state,
+            action: PayloadAction<ThingObject>
+        ) => {
             state.rootThing = action.payload;
             state.synced = true;
-        }
-    }, 
-})
+        },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(finishCreatingThing, (state, action) => {
+            state.rootThing = action.payload;
+        });
+    },
+});
 
 export const { editThing, finishRefetchingRootThing } = contextSlice.actions;
 
@@ -65,9 +81,41 @@ export const editThingAndRefetch = (payload: EditThingPayload) => {
             dispatch(finishRefetchingRootThing(rootThing));
         } catch (error) {
             console.error(error);
+            // TODO: Elegantly handle this error
         }
     };
 };
+
+export const createThingAndRefetch = createAsyncThunk(
+    'creatorWindow/createThingAndRefetch',
+    async (_, thunkAPI) => {
+        thunkAPI.dispatch(submitNewThing());
+        const state = thunkAPI.getState() as RootState;
+        const { creationPath, name, kind } = state.creatorWindow;
+        const pathOfThing = [...creationPath];
+        pathOfThing.push(name);
+        const template = state.context.templates[kind];
+        if (template === undefined) return;
+        console.log('Creating:', pathOfThing, template);
+        try {
+            await updateNode(pathOfThing, template);
+            const rootThing = (await fetchNode([''])) as ThingObject;
+            thunkAPI.dispatch(finishCreatingThing(rootThing));
+        } catch (error) {
+            console.error(error);
+            // TODO: Elegantly handle this error
+        }
+    }
+);
+
+// export const createThingAndRefetch = () => {
+//     return async (dispatch, getState): Promise<void> => {
+//         dispatch(submitNewThing());
+//         const { creatorWindow } = getState();
+//         const { name, kind, creatorPath } = creatorWindow;
+
+//     }
+// }
 
 const delay = (t: number): Promise<void> => {
     return new Promise((resolve) => {
