@@ -1,5 +1,6 @@
 @import '../../theme/layers.scss';
 @import '../../theme/colors.scss';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 
 .overlay {
     position: fixed;
@@ -26,5 +27,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 14px;
 
 }

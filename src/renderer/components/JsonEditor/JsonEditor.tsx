@@ -56,6 +56,19 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
         }
     };
 
+    const renderCreateButton = (): JSX.Element => {
+        return (
+            <button
+                className="create-button"
+                onClick={() => {
+                    dispatch(openCreatorWindow(path));
+                }}
+            >
+                <i className="material-icons">add</i>
+            </button>
+    )
+    }
+
     const key = path[path.length - 1];
     let className = 'json-editor';
     if (isBeingEditted) className += ' focused';
@@ -77,14 +90,7 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
                         : 'keyboard_arrow_right'}
                 </i>
                 {key}
-                <div style={{ flex: 1 }} />
-                <button
-                    onClick={() => {
-                        dispatch(openCreatorWindow(path));
-                    }}
-                >
-                    create
-                </button>
+                {renderCreateButton()}
             </div>
             {isRevealed && (
                 <div className="json-value">{renderValueEditor()}</div>
