@@ -3,13 +3,11 @@ import ThingApp from './components/ThingApp/ThingApp';
 import { ThingAppContext } from '../utils/types';
 import { Provider } from 'react-redux';
 import ReactDOMServer from 'react-dom/server';
-import appContext from './state';
+import { createStoreFromContext } from './state/store';
 
 const renderNodeToString = (thingAppContext: ThingAppContext): string => {
 
-    appContext.setInitialState(thingAppContext);
-
-    const store = appContext.store;
+    const store = createStoreFromContext(thingAppContext);
 
     return ReactDOMServer.renderToString(
         <Provider store={store}>

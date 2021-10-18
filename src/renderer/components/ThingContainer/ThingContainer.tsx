@@ -3,18 +3,17 @@ import './ThingContainer.scss';
 import { PathNodes, ThingComponent, ThingObject } from '../../../utils/types';
 import { getThingFromPath } from '../../../utils/path';
 import componentLib from '../../../utils/componentLib';
-import { RootState } from '../../state';
-import { useSelector, useDispatch } from 'react-redux';
-import appContext from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { focusOnThing } from '../../state/editorWindowSlice';
 
 type ThingProps = {
     path: PathNodes,
 };
 
 const ThingContainer = ({ path }: ThingProps): JSX.Element => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [ hover, setHover ] = useState(false);
-    const { rootThing, authorMode } = useSelector((state: RootState) => state.context);
+    const { rootThing, authorMode } = useAppSelector((state) => state.context);
     const thing = getThingFromPath(rootThing, path);
 
     if (!thing) return <div>undefined</div>
@@ -33,7 +32,7 @@ const ThingContainer = ({ path }: ThingProps): JSX.Element => {
 
     const handleAuthorClick = (event: MouseEvent): void => {
         if (!authorMode) return;
-        dispatch(appContext.startEdittingThing(path));
+        dispatch(focusOnThing(path));
         event.stopPropagation();
     }
 

@@ -2,25 +2,26 @@ import React from 'react';
 import './ThingApp.scss';
 import ThingContainer from '../ThingContainer/ThingContainer';
 import EditorWindow from '../EditorWindow/EditorWindow';
-import { useSelector, useDispatch } from 'react-redux'
-import appContext, { RootState } from '../../state';
+import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { dragEditorWindow, stopDraggingEditorWindow } from '../../state/editorWindowSlice';
 
 const ThingApp = (): JSX.Element => {
-    const dispatch = useDispatch();
-    const { authorMode, editorWindowOpen, path, editorWindowIsDragging } = useSelector((state: RootState) => state.context);
+    const dispatch = useAppDispatch();
+    const { authorMode, path } = useAppSelector((state) => state.context);
+    const editorWindow = useAppSelector((state) => state.editorWindow);
 
     return (
         <div className="page-container"
             onMouseMove={(e)=>{
-                if (editorWindowIsDragging) {
-                    dispatch(appContext.dragEditorWindow(e.clientX));
+                if (editorWindow.isDragging) {
+                    dispatch(dragEditorWindow(e.clientX));
                 }
             }}
             onMouseUp={()=>{
-                dispatch(appContext.stopDraggingEditorWindow());
+                dispatch(stopDraggingEditorWindow());
             }}
         >
-            { authorMode && editorWindowOpen && <EditorWindow />}
+            { authorMode && editorWindow.isOpen && <EditorWindow />}
             <div className="content">
                 <ThingContainer path={path} />
             </div>

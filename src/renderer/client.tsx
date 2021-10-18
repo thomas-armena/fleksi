@@ -1,16 +1,16 @@
 import React from 'react';
 import ThingApp from './components/ThingApp/ThingApp';
 import { ThingAppContext } from '../utils/types';
-import appContext from './state';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
+import { createStoreFromContext } from './state/store';
 
 declare let thingAppContext: ThingAppContext;
 
-appContext.setInitialState(thingAppContext);
+const store = createStoreFromContext(thingAppContext);
 
 ReactDOM.hydrate(
-    <Provider store={appContext.store}>
+    <Provider store={store}>
         <ThingApp />
     </Provider>, document.getElementById('root')
 );

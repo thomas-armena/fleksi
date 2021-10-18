@@ -1,19 +1,19 @@
 import React from 'react';
 import { PathNodes } from '../../../utils/types';
-import { useSelector, useDispatch } from 'react-redux'
 import { getThingFromPath } from '../../../utils/path';
-import { RootState } from '../../state';
-import appContext from '../../state';
 import './JsonEditor.scss';
-import e from 'express';
+import { useAppDispatch, useAppSelector } from '../../state/hooks';
+import { editThingAndRefetch } from '../../state/contextSlice';
+import { hideThing, revealThing } from '../../state/editorWindowSlice';
 
 type JsonEditorProps = {
     path: PathNodes
 }
 
 const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
-    const dispatch = useDispatch();
-    const { rootThing, editPath, revealMap } = useSelector((state: RootState) => state.context);
+    const dispatch = useAppDispatch();
+    const { rootThing } = useAppSelector((state) => state.context);
+    const { editPath, revealMap } = useAppSelector((state) => state.editorWindow);
     const thing = getThingFromPath(rootThing, path);
 
     const isRevealed = revealMap[path.join("/")];
@@ -32,7 +32,7 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
 
     const handleValueChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
-        dispatch(appContext.editThingAndUpdate({ path, newValue }));
+        dispatch(editThingAndRefetch({ path, newValue }));
     }
 
     const renderValue = (): JSX.Element => {
@@ -64,9 +64,9 @@ const JsonEditor = ({ path }: JsonEditorProps): JSX.Element => {
         >
             <div className="json-key" onClick={()=>{
                 if (isRevealed) {
-                    dispatch(appContext.hideThing(path));
+                    dispatch(hideThing(path));
                 } else {
-                    dispatch(appContext.revealThing(path));
+                    dispatch(revealThing(path));
                 }
             }}>
                 <i className="material-icons">{ isRevealed ?  "keyboard_arrow_down" : "keyboard_arrow_right" }</i>
